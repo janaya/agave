@@ -10,7 +10,7 @@
 	<style type="text/css">
 		body {
   		margin-top: 1.0em;
-  		background-color: #beefb6;
+  		background-color: #ffffff;
 		  font-family: "Helvetica,Arial,FreeSans";
   		color: #000000;
     }
@@ -18,12 +18,12 @@
       margin: 0 auto;
       width: 700px;
     }
-		h1 { font-size: 3.8em; color: #411049; margin-bottom: 3px; }
+		h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
 		h1 .small { font-size: 0.4em; }
 		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #411049; }
-    h3 { text-align: center; color: #411049; }
-    a { color: #411049; }
+		h2 { font-size: 1.5em; color: #000000; }
+    h3 { text-align: center; color: #000000; }
+    a { color: blue; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
 		pre { background: #000; color: #fff; padding: 15px;}
@@ -46,7 +46,7 @@
     </div>
 
     <h1><a href="http://github.com/janaya/agave">AGAVE</a>
-      <span class="small">by <a href="http://github.com/janaya">janaya</a></span></h1>
+      <!--<span class="small">by <a href="http://github.com/janaya">janaya</a></span></h1>-->
 
     <div class="description">
       Affiliation Graphs Analysis and Visualisation Engine
@@ -57,258 +57,13 @@
 instances, pictures, etc.), create broader/narrower relations between 
 Concepts, generate graphs, analyse and provides and interface
 to interactively visualise these graphs.</p><h2>Dependencies</h2>
-<p>MySQL >= 5.1 
-Python >=2.6+ 
-virtualenv >= 1.4.7
-
-Other dependencies will be installed automatically following the installation instructions or are optional:
- Django >=1.2
- bioreader
- SPARQLWrapper>= 1.4.1
- NetworkX >= 1.1
- NumPy >= 1.4
- matplotlib >= 0.99
- R >= 2.12</p>
 <h2>Install</h2>
-<p>
-Installing requirements
------------------------
-
-#. Installing basic requirements (Python and MySQL)
-
-   In Debian Unstable:: 
-
-     $ sudo aptitude install mysql-server python2.6 python-setuptools 
-       libmysqlclient-dev python2.6-dev
-
-   In Debian Lenny, you will have add unstable repository or backports for python2.6 support:
-
- * Add to /etc/apt/sources.list::
-
-        deb http://ftp.us.debian.org/debian unstable main non-free contrib
-
- * Add to /etc/apt/preferences::
-
-        Package: *
-        Pin: release a=stable
-        Pin-Priority: 700
-
-        Package: *
-        Pin: release a=unstable
-        Pin-Priority: 600
-
- * Then install the packages::
-
-     $ sudo aptitude install python2.6/unstable python-setuptools/unstable
-
-#. Installing requirements to download other software from git and mercurial::
-
-    $ sudo aptitude install git-core mercurial
-
-#. Installing requirements for the virtualenv::
-
-    $ sudo easy_install pip
-    $ sudo pip install virtualenv
-  
-#. (Optional) Installing R packages (for agave_graph_analysis module)::
-   NOTE: Some parts of this module where lost and must be recovered!!
-   It's not currently working (2010-11-08)
-   
-    $ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix 
-      r-recommended r-base-core r-base-html r-cran-boot r-cran-class 
-      r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth 
-      r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme 
-      r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess
-
-   Then install remaining R packages from R shell::
-
-    $ R
-    > install.packages("sqldf")
-    > install.packages("igraph")
-
-#. (Optional) Installing and seting Sesame in case of you wish to run your own local repository::
-
-    $ sudo aptitude install sun-java6-jdk sun-java6-jre
-    $ tar -xvzf sesame_store_mesh2skos.sql.tar.gz
-    $ mysql -u user -p sesame_store_mesh2skos < sesame_store_mesh2skos.sql
-    $ mv apache-tomcat-6.0.2-sesame.tar.gx apache-tomcat-6.0.2-sesame.tar.gz
-    $ tar -xvzf apache-tomcat-6.0.2-sesame.tar.gz
-    $ sudo mv apache-tomcat-6.0.26 /usr/local/bin
-    $ sudo /usr/local/bin/apache-tomcat-6.0.26/bin/catalina.sh start
-
-Setting up the databases
-------------------------
-
-Currently Agave is designed to work with two databases, one for storing 
-publications and one for storing projects. The second database is optional. 
-To create both::
-
-     $ mysql 
-     mysql> CREATE DATABASE agave_pr DEFAULT CHARACTER SET utf8 
-            DEFAULT COLLATE utf8_general_ci;
-     mysql> CREATE DATABASE agave_pu DEFAULT CHARACTER SET utf8 
-            DEFAULT COLLATE utf8_general_ci;
-     mysql> grant all privileges on agave_pr.* to user identified by 'userpw';
-     mysql> grant all privileges on agave_pu.* to user identified by 'userpw';
-       
-Installation
-============
-
-#. Download the application::
-
-    $ git clone git://github.com/janaya/agave
-
-#. Create a virtualenv (you can choose any path to install the virtualenv)::
-
-    $ virtualenv --no-site-packages /path/to/agaveenv -p python2.6
-
-#. Activate the virtualen and install dependencies::
-
-    $ source /path/to/agaveenv/bin/activate
-    (agaveenv)$ pip install -E agaveenv -r agave/requirements/external_apps.txt
-
-#. (Optional) Download bioreader (for module pubmedxml2models) inside agave_prj or inside 
-   /path/to/agaveenv/lib/python2.6/site-packages::
-
-	$ cd /path/to/agaveenv/lib/python2.6/site-packages/
-	$ hg clone http://bitbucket.org/jagan/bioreader
-
-Customize your settings
------------------------
-
-Create a local_settings.py file inside the project directory
-(/path/to/agave/agave_prj) and the following configurations:
-
-* Settings for your DATABASES, for instance::
-    
-    DATABASES - {
-    'default': {
-        'NAME': 'agave_pr',
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': 'user',
-        'PASSWORD': 'userpw'
-    },
-    'instances': {
-        'NAME': 'agave_pu',
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': 'user',
-        'PASSWORD': 'userpw'
-    }
-	}
-	
-* (Optional) For zemantatags module, set::
-    
-	ZEMANTA_KEY - 'yourapikey'
-    
-* (Optional) For fpggdb2models module, set::
-    
-    SN_DBSERVER - 'localhost'
-    SN_DBNAME - 'dbuser'
-    SN_DBUSER - 'dbpw'
-    SN_DBPW - 'extranet_fpgg'
-    
-* (Optional) In case you're running your own MeSH-SKOS endpoint, set::
- 
- 	SPARQL_ENDPOINT_LOCAL - True
-
-Initialize the databases
-------------------------
-
-#. Initialize the databases::
-
-    (agaveenv)$ cd agave_prj/
-    (agaveenv)$ python manage.py syncdb
-    (agaveenv)$ python manage.py syncdb --database-instances
-
-You can now insert data through the API (see api.html) or initialize the 
-database with different datasets.
-
-Initialize publications from a dump of Pubmed XML publications
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can load this dataset and generate the broader patterns relations between
-concepts and actor with one command::
-
-    (agaveenv)$ python manage.py initialize_publications
-
-Or step by step: 
-
-#. Load the dataset::
-
-    (agaveenv)$ python manage.py pubmedxml2models
-
-#. Generate the broader patterns relations between concepts::
-
-	(agaveenv)$ python manage.py generate_CCbx_models
-
-#. Generate the broader patterns relations between actors::
-
-	(agaveenv)$ python manage.py generate_AAbx_models
-
-
-Initialize projects from an external database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can also load the dataset and generate the broader patterns relations in
-one command or do it step by step.
-With one command::
-
-    (agaveenv)$ python manage.py initialize_projects
-
-Step by step:
-
-#. Load the dataset::
-
-    (agaveenv)$ python manage.py fpggdb2models
-    
-   You will have to adapt fpggdb2models code to fit your database
-
-
-#. Generate the broader patterns relations between concepts::
-
-	(agaveenv)$ python manage.py generate_CCbx_models
-
-#. Generate the broader patterns relations between actors::
-
-	(agaveenv)$ python manage.py generate_AAbx_models
-</p>
 <h2>License</h2>
-<p>AGAVE version 0.1 and later is covered by the new BSD license: 
-
-Copyright (c) 2010, Digital Enterprise Research Institute (DERI), NUI Galway.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-Redistributions of source code must retain the above copyright notice, this
-list of conditions and the following disclaimer.
-
-Redistributions in binary form must reproduce the above copyright notice, this
-list of conditions and the following disclaimer in the documentation and/or
-other materials provided with the distribution.
-
-Neither the name of Digital Enterprise Research Institute nor the names of its contributors may be used
-to endorse or promote products derived from this software without specific
-prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-You may contact the author via email at julia dot anaya at gmail dot com
+<p>AGAVE version 0.1 and later is covered by the new BSD license
 </p>
-<h2>Authors</h2>
-<p><br/>Authors and Maintainers<br/>=======================<br/><br/>Julia Anaya <julia.anaya at gmail dot com><br/><br/>Contributors<br/>============<br/><br/>Benjamin Carrillo<br/></p>
 <h2>Contact</h2>
-<p> (julia.anaya@gmail.com)<br/>      </p>
+<p> (julia.anaya at gmail dot com)
+<br/>      </p>
 
 
     <h2>Download</h2>
