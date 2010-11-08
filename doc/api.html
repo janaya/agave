@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using AGAVE API &mdash; Agave v0.3 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="/usr/share/jsmath/easy/load.js"></script>
+    <link rel="top" title="Agave v0.3 documentation" href="index.html" />
+    <link rel="prev" title="Installing AGAVE on Debian/Ubuntu" href="install.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="install.html" title="Installing AGAVE on Debian/Ubuntu"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Agave v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="using-agave-api">
+<span id="ref-api"></span><h1>Using AGAVE API<a class="headerlink" href="#using-agave-api" title="Permalink to this headline">¶</a></h1>
+<p>Basic url is <a class="reference external" href="http://localhost:8000/">http://localhost:8000/</a></p>
+<p>Or in case of running it from a web server: <a class="reference external" href="http://domain.com/">http://domain.com/</a></p>
+<p>In the following:
+- Actors: are users or authors
+- Instances: are instances or projects
+- Concepts: are tags</p>
+<div class="section" id="getting-graphs-json-data">
+<h2>Getting graphs JSON data<a class="headerlink" href="#getting-graphs-json-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="authentication">
+<h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h3>
+<p>Provided by Basic HTTP authentication.</p>
+<p>By default, user: admin, password: admin</p>
+</div>
+<div class="section" id="method-get">
+<h3>Method GET<a class="headerlink" href="#method-get" title="Permalink to this headline">¶</a></h3>
+<p><strong>/json/&lt;db&gt;/&lt;graphtype&gt;/&lt;graphsubtype&gt;/?a={actor name}</strong> (old)</p>
+<p><strong>/rest/&lt;db&gt;/&lt;graphtype&gt;/&lt;graphsubtype&gt;/actor/&lt;actor_id&gt;</strong> (updated)</p>
+<p><em>URL variables</em>:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">&lt;graphtype&gt;</span></tt></dt>
+<dd><dl class="first last docutils">
+<dt>is a couple of characters in [AA,AC,CC].</dt>
+<dd><p class="first">&#8220;AA&#8221; is the Actors local graph for a given Actor.</p>
+<p>&#8220;CC&#8221; is the Concepts local graph for a given Actor. Currently only support graphsubtype &#8220;b&#8221;</p>
+<p class="last">&#8220;AC&#8221; is the Actor-Concept local graph for a given Actor. Only support [1,2] graphsubtype.</p>
+</dd>
+</dl>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">&lt;AAgraphtype&gt;</span></tt></dt>
+<dd><blockquote class="first">
+is a character in [p,c,b,n,s,a]) indicating the type of local graph.</blockquote>
+<p>&#8220;p&#8221; graph from Instances. Only available for &#8220;AA&#8221; graphtype</p>
+<p>&#8220;c&#8221; graph from Concepts. Only available for &#8220;AA&#8221; graphtype</p>
+<p>&#8220;b&#8221; graph from Broader patterns between Concepts. Only available for &#8220;AA&#8221; or &#8220;CC&#8221; graphtype</p>
+<p>&#8220;n&#8221; graph from Narrower patterns between Concepts. Only available for &#8220;AA&#8221; graphtype</p>
+<p>&#8220;s&#8221; graph from Sibling patterns between Concepts. Only available for &#8220;AA&#8221; graphtype</p>
+<p>&#8220;a&#8221; graph from co-Ancestors patterns between Concepts. Only available for &#8220;AA&#8221; graphtype</p>
+<p class="last">[1,2] is a character indicating 1 or 2 level graph. Only available for &#8220;AC&#8221; graphtype</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">&lt;db&gt;</span></tt></dt>
+<dd>is the database to query. There&#8217;re 2 databases: {instances,projects}</dd>
+<dt><tt class="docutils literal"><span class="pre">&lt;actor_id&gt;</span></tt></dt>
+<dd>is the id of the actor from who the local graph is extracted</dd>
+</dl>
+</blockquote>
+<dl class="docutils">
+<dt><em>Examples</em>:</dt>
+<dd><blockquote class="first">
+<a class="reference external" href="http://localhost:8000/rest/instances/AA/c/actor/391/">http://localhost:8000/rest/instances/AA/c/actor/391/</a></blockquote>
+<p><a class="reference external" href="http://localhost:8000/rest/instances/CC/b/actor/2/">http://localhost:8000/rest/instances/CC/b/actor/2/</a></p>
+<blockquote class="last">
+<a class="reference external" href="http://localhost:8000/rest/instances/AC/2/actor/391/">http://localhost:8000/rest/instances/AC/2/actor/391/</a></blockquote>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="getting-graphs-javascript-visualizations">
+<h2>Getting graphs Javascript visualizations<a class="headerlink" href="#getting-graphs-javascript-visualizations" title="Permalink to this headline">¶</a></h2>
+<p><strong>/graph/&lt;db&gt;/&lt;graphtype&gt;/&lt;graphsubtype&gt;/?a={actor name}</strong> (old)</p>
+<p><strong>/graph/&lt;db&gt;/&lt;graphtype&gt;/&lt;graphsubtype&gt;/actor/&lt;actor_id&gt;</strong> (updated)</p>
+<p>The same as getting JSON but the URL begins with &#8220;graph&#8221;</p>
+<dl class="docutils">
+<dt><em>Examples</em>:</dt>
+<dd><p class="first"><a class="reference external" href="http://localhost:8000/graph/instances/AA/c/actor/391/">http://localhost:8000/graph/instances/AA/c/actor/391/</a></p>
+<p><a class="reference external" href="http://localhost:8000/graph/instances/CC/b/actor/2/">http://localhost:8000/graph/instances/CC/b/actor/2/</a></p>
+<p class="last"><a class="reference external" href="http://localhost:8000/graph/instances/AC/2/actor/391/">http://localhost:8000/graph/instances/AC/2/actor/391/</a></p>
+</dd>
+</dl>
+</div>
+<div class="section" id="rest-api-to-synchronize-the-databases">
+<h2>REST API to synchronize the databases<a class="headerlink" href="#rest-api-to-synchronize-the-databases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Authentication<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Basic HTTP authentication.</p>
+<p>By default, user: admin, password: admin</p>
+</div>
+<div class="section" id="instance">
+<h3>Instance<a class="headerlink" href="#instance" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h4>Method GET<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/{instance_id}/</strong></p>
+<p>Without instance_id returns all instances.</p>
+<p>With instance_id return only the instance with that id.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><a class="reference external" href="http://localhost:8000/rest/projects/instance/2">http://localhost:8000/rest/projects/instance/2</a></dd>
+</dl>
+</div>
+<div class="section" id="method-post">
+<h4>Method POST<a class="headerlink" href="#method-post" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/</strong></p>
+<dl class="docutils">
+<dt>JSON as POST body:</dt>
+<dd><p class="first">id and title are required, year and abstract are optional
+Example</p>
+<div class="last highlight-python"><pre>{"id": "2",
+ "title": "SEUGNET Laurent - ESPCI"
+ "year": "",
+ "abtract": "blah"}</pre>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="method-put">
+<h4>Method PUT<a class="headerlink" href="#method-put" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/</strong></p>
+<dl class="docutils">
+<dt>JSON as PUT body:</dt>
+<dd><p class="first">id is not required.
+Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;year&quot;</span><span class="p">:</span> <span class="s">&quot;2010&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="method-delete">
+<h4>Method DELETE<a class="headerlink" href="#method-delete" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/</strong></p>
+<p>Remember to remove related models (InstanceActor and InstanceConcept) before
+removing Instance.</p>
+<p>e.g.: for project 2, you should delete the user relation:</p>
+<p>/rest/prjects/instance/2/actor/429</p>
+<p>This delete the user relation but not the user itself.</p>
+<p>In the case of projects, as the concepts are generated by the app itself,
+there&#8217;s no need to delete the relations before (but still is needed to delete
+the actors).</p>
+</div>
+</div>
+<div class="section" id="instanceauthor">
+<h3>InstanceAuthor<a class="headerlink" href="#instanceauthor" title="Permalink to this headline">¶</a></h3>
+<p>Tables linking Actors to Instances</p>
+<blockquote>
+<p>&#64;TODO: weight mandatory?</p>
+<dl class="docutils">
+<dt>&#64;TODO: maybe is better to create URL as /rest/&lt;db&gt;/instanceactor/{instanceactor_id}</dt>
+<dd>and create the JSON body with the actor and instance ids?</dd>
+</dl>
+</blockquote>
+<div class="section" id="id3">
+<h4>Method GET<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/actor/{actor_id}</strong></p>
+<p>Without actor_id returns all Actors in the Instance with id instance_id.</p>
+<dl class="docutils">
+<dt>With actor_id return only the InstanceActor with the Actor with actor_id</dt>
+<dd>and Instance with id instance_id.</dd>
+<dt>Example:</dt>
+<dd><a class="reference external" href="http://localhost:8000/rest/projects/instance/2/actor/2">http://localhost:8000/rest/projects/instance/2/actor/2</a></dd>
+</dl>
+</div>
+<div class="section" id="id4">
+<h4>Method POST<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/actor/&lt;actor_id&gt;</strong></p>
+<p>&#64;param instance_id: instance id</p>
+<p>&#64;param actor_id: actor id weight: 1/total number of actors in the instance</p>
+<dl class="docutils">
+<dt>JSON as POST body:</dt>
+<dd><p class="first">id is required, weight is optional
+Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;2&quot;</span><span class="p">,</span> <span class="s">&quot;weight&quot;</span><span class="p">:</span> <span class="s">&quot;1.0&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="id5">
+<h4>Method PUT<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/actor/&lt;actor_id&gt;</strong></p>
+<p>&#64;param instance_id: instance id</p>
+<p>&#64;param actor_id: actor id</p>
+<dl class="docutils">
+<dt>JSON as PUT body:</dt>
+<dd><dl class="first docutils">
+<dt>weight: 1/total number of actors in the instance,</dt>
+<dd>e.g. if a instance has 3 actors, then weight is 1/3.</dd>
+</dl>
+<p>Example:</p>
+<div class="last highlight-python"><pre>{"id": "2" "weight": "0.3"}
+
+@TODO: does it have sense to modifiy the id?</pre>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="id6">
+<h4>Method DELETE<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/actor/&lt;actor_id&gt;</strong></p>
+</div>
+</div>
+<div class="section" id="instanceconcepts">
+<h3>InstanceConcepts<a class="headerlink" href="#instanceconcepts" title="Permalink to this headline">¶</a></h3>
+<p>tables linking Concepts to Instances :</p>
+<blockquote>
+<p>&#64;TODO: weight mandatory?</p>
+<p>&#64;TODO: maybe is better to create URL as /rest/&lt;db&gt;/instanceconcept/{instanconcept_id} and create the JSON body with the concept and instance ids?</p>
+</blockquote>
+<div class="section" id="id7">
+<h4>Method GET<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/concept/{concept_id}</strong></p>
+<p>Without concept_id returns all Concepts in the Instance with id instance_id.</p>
+<dl class="docutils">
+<dt>With concept_id return only the InstanceConcept with the Concept with concept_id</dt>
+<dd>and Instance with id instance_id.</dd>
+<dt>Example:</dt>
+<dd><a class="reference external" href="http://localhost:8000/rest/projects/instance/2/concept/2">http://localhost:8000/rest/projects/instance/2/concept/2</a></dd>
+</dl>
+</div>
+<div class="section" id="id8">
+<h4>Method POST<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/concept/&lt;concept_id&gt;</strong></p>
+<p>&#64;param instance_id: instance id</p>
+<p>&#64;param concept_id: concept id weight: 1</p>
+<dl class="docutils">
+<dt>JSON as PUT body:</dt>
+<dd><p class="first">weight: 1
+Example:</p>
+<div class="last highlight-python"><pre>{"id": "2" "weight": "1"}</pre>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="id9">
+<h4>Method PUT<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/concept/&lt;concept_id&gt;</strong></p>
+<p>&#64;param instance_id: instance id</p>
+<p>&#64;param concept_id: concept id</p>
+<dl class="docutils">
+<dt>JSON as PUT body:</dt>
+<dd><p class="first">weight: 1
+Example:</p>
+<div class="last highlight-python"><pre>{"id": "2" "weight": "1"}</pre>
+</div>
+</dd>
+</dl>
+<p>&#64;TODO: does it have sense to modifiy the id?</p>
+</div>
+<div class="section" id="id10">
+<h4>Method DELETE<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/instance/&lt;instance_id&gt;/concept/&lt;concept_id&gt;</strong></p>
+</div>
+</div>
+<div class="section" id="actor">
+<h3>Actor<a class="headerlink" href="#actor" title="Permalink to this headline">¶</a></h3>
+<p><strong>/rest/&lt;db&gt;/actor/{actor_id}/</strong></p>
+<div class="section" id="id11">
+<h4>Method GET<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/actor/{actor_id}/</strong></p>
+<p>Without actor_id returns all Actors.</p>
+<p>With actor_id return only the Actor with that id.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><a class="reference external" href="http://localhost:8000/rest/projects/actor/2">http://localhost:8000/rest/projects/actor/2</a></dd>
+</dl>
+</div>
+<div class="section" id="id12">
+<h4>Method POST<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/actor/&lt;actor_id&gt;/</strong></p>
+<dl class="docutils">
+<dt>JSON as POST body:</dt>
+<dd><p class="first">id and name are required
+Example</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;2&quot;</span><span class="p">,</span>
+<span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Julia Anaya&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="id13">
+<h4>Method PUT<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/actor/&lt;actor_id&gt;/</strong></p>
+<dl class="docutils">
+<dt>JSON as PUT body:</dt>
+<dd><p class="first">id is not required.
+Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Michael AA MIGLIOR&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="id14">
+<h4>Method DELETE<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/actor/&lt;actor_id&gt;/</strong></p>
+<p>Remember to remove related models (InstanceActor) before removing Actor.</p>
+</div>
+</div>
+<div class="section" id="concept">
+<h3>Concept<a class="headerlink" href="#concept" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h4>Method GET<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/concept/{concept_id}/</strong></p>
+<p>Without concept_id returns all Concepts.</p>
+<p>With concept_id return only the Concept with that id.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><a class="reference external" href="http://localhost:8000/rest/projects/concept/2">http://localhost:8000/rest/projects/concept/2</a></dd>
+</dl>
+</div>
+<div class="section" id="id16">
+<h4>Method POST<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/concept/&lt;concept_id&gt;/</strong></p>
+<dl class="docutils">
+<dt>JSON as POST body:</dt>
+<dd><p class="first">id and name are required
+Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="p">{</span> <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;2&quot;</span><span class="p">,</span>
+   <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Sleep deprivation&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="id17">
+<h4>Method PUT<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/concept/&lt;concept_id&gt;/</strong></p>
+<dl class="docutils">
+<dt>JSON as PUT body:</dt>
+<dd><p class="first">id is not required.
+Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Sleep deprivation2&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="id18">
+<h4>Method DELETE<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<p><strong>/rest/&lt;db&gt;/concept/&lt;concept_id&gt;/</strong></p>
+<p>Remember to remove related models (InstanceConcept) before removing Instance.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using AGAVE API</a><ul>
+<li><a class="reference internal" href="#getting-graphs-json-data">Getting graphs JSON data</a><ul>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+<li><a class="reference internal" href="#method-get">Method GET</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-graphs-javascript-visualizations">Getting graphs Javascript visualizations</a></li>
+<li><a class="reference internal" href="#rest-api-to-synchronize-the-databases">REST API to synchronize the databases</a><ul>
+<li><a class="reference internal" href="#id1">Authentication</a></li>
+<li><a class="reference internal" href="#instance">Instance</a><ul>
+<li><a class="reference internal" href="#id2">Method GET</a></li>
+<li><a class="reference internal" href="#method-post">Method POST</a></li>
+<li><a class="reference internal" href="#method-put">Method PUT</a></li>
+<li><a class="reference internal" href="#method-delete">Method DELETE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#instanceauthor">InstanceAuthor</a><ul>
+<li><a class="reference internal" href="#id3">Method GET</a></li>
+<li><a class="reference internal" href="#id4">Method POST</a></li>
+<li><a class="reference internal" href="#id5">Method PUT</a></li>
+<li><a class="reference internal" href="#id6">Method DELETE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#instanceconcepts">InstanceConcepts</a><ul>
+<li><a class="reference internal" href="#id7">Method GET</a></li>
+<li><a class="reference internal" href="#id8">Method POST</a></li>
+<li><a class="reference internal" href="#id9">Method PUT</a></li>
+<li><a class="reference internal" href="#id10">Method DELETE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#actor">Actor</a><ul>
+<li><a class="reference internal" href="#id11">Method GET</a></li>
+<li><a class="reference internal" href="#id12">Method POST</a></li>
+<li><a class="reference internal" href="#id13">Method PUT</a></li>
+<li><a class="reference internal" href="#id14">Method DELETE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#concept">Concept</a><ul>
+<li><a class="reference internal" href="#id15">Method GET</a></li>
+<li><a class="reference internal" href="#id16">Method POST</a></li>
+<li><a class="reference internal" href="#id17">Method PUT</a></li>
+<li><a class="reference internal" href="#id18">Method DELETE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">Installing AGAVE on Debian/Ubuntu</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="install.html" title="Installing AGAVE on Debian/Ubuntu"
+             >previous</a> |</li>
+        <li><a href="index.html">Agave v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Julia Anaya.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

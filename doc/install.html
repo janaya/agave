@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing AGAVE on Debian/Ubuntu &mdash; Agave v0.3 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="/usr/share/jsmath/easy/load.js"></script>
+    <link rel="top" title="Agave v0.3 documentation" href="index.html" />
+    <link rel="next" title="Using AGAVE API" href="api.html" />
+    <link rel="prev" title="AGAVE - Affiliation Graphs Analysis and Visualisation Engine" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="api.html" title="Using AGAVE API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="AGAVE - Affiliation Graphs Analysis and Visualisation Engine"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Agave v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-agave-on-debian-ubuntu">
+<span id="ref-install"></span><h1>Installing AGAVE on Debian/Ubuntu<a class="headerlink" href="#installing-agave-on-debian-ubuntu" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>To get started with Agave you must have the following installed:</p>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.mysql.com/">MySQL</a> 5.1+</li>
+<li>Python 2.6+  many OSes come with an adequate version of Python. If you are
+on Windows you will need to install it from <a class="reference external" href="http://python.org/">python.org</a>.</li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtualenv</a> 1.4.7+</li>
+</ul>
+</blockquote>
+<p>Please, follow the process described in &#8220;Installing requirements&#8221; to install
+these requirement.</p>
+<p>The next requirements will be installed authomatically with the command
+<tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">agave/requirements/external_apps.txt</span></tt></p>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.djangoproject.com/">Django</a> 1.2+</li>
+<li>for pubmedxml2models: <a class="reference external" href="http://bitbucket.org/jagan/bioreader/">bioreader</a></li>
+<li>for ccbs_extractor: <a class="reference external" href="http://sparql-wrapper.sourceforge.net/">SPARQLWrapper</a> 1.4.1+</li>
+<li>for graphanalysis:</li>
+</ul>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://networkx.lanl.gov/">NetworkX</a> 1.1+</li>
+<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a> 1.4+</li>
+<li><a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> 0.99+</li>
+</ul>
+</blockquote>
+</blockquote>
+<p>NOTE: bioreader can also be found on <a class="reference external" href="http://sourceforge.net/projects/bioinforread/">http://sourceforge.net/projects/bioinforread/</a>
+or <a class="reference external" href="http://code.google.com/p/nltk/source/browse/trunk/nltk_contrib/nltk_contrib/bioreader/?r=8404">http://code.google.com/p/nltk/source/browse/trunk/nltk_contrib/nltk_contrib/bioreader/?r=8404</a></p>
+<div class="section" id="installing-requirements">
+<h3>Installing requirements<a class="headerlink" href="#installing-requirements" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Installing basic requirements (Python and MySQL)</p>
+<p>In Debian Unstable:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install mysql-server python2.6 python-setuptools
+  libmysqlclient-dev python2.6-dev</pre>
+</div>
+<p>In Debian Lenny, you will have add unstable repository or backports for python2.6 support:</p>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li><p class="first">Add to /etc/apt/sources.list:</p>
+<div class="highlight-python"><pre>deb http://ftp.us.debian.org/debian unstable main non-free contrib</pre>
+</div>
+</li>
+<li><p class="first">Add to /etc/apt/preferences:</p>
+<div class="highlight-python"><pre>Package: *
+Pin: release a=stable
+Pin-Priority: 700
+
+Package: *
+Pin: release a=unstable
+Pin-Priority: 600</pre>
+</div>
+</li>
+<li><p class="first">Then install the packages:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install python2.6/unstable python-setuptools/unstable</pre>
+</div>
+</li>
+</ul>
+</blockquote>
+<ol class="arabic">
+<li><p class="first">Installing requirements to download other software from git and mercurial:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install git-core mercurial</pre>
+</div>
+</li>
+<li><p class="first">Installing requirements for the virtualenv:</p>
+<div class="highlight-python"><pre>$ sudo easy_install pip
+$ sudo pip install virtualenv</pre>
+</div>
+</li>
+<li><p class="first">(Optional) Installing R packages (for stadistics module):</p>
+<div class="highlight-python"><pre>$ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix
+  r-recommended r-base-core r-base-html r-cran-boot r-cran-class
+  r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth
+  r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme
+  r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess</pre>
+</div>
+</li>
+<li><p class="first">(Optional) Installing and seting Sesame in case of you wish to run your own local repository:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install sun-java6-jdk sun-java6-jre
+$ tar -xvzf sesame_store_mesh2skos.sql.tar.gz
+$ mysql -u user -p sesame_store_mesh2skos &lt; sesame_store_mesh2skos.sql
+$ mv apache-tomcat-6.0.2-sesame.tar.gx apache-tomcat-6.0.2-sesame.tar.gz
+$ tar -xvzf apache-tomcat-6.0.2-sesame.tar.gz
+$ sudo mv apache-tomcat-6.0.26 /usr/local/bin
+$ sudo /usr/local/bin/apache-tomcat-6.0.26/bin/catalina.sh start</pre>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="setting-up-the-databases">
+<h3>Setting up the databases<a class="headerlink" href="#setting-up-the-databases" title="Permalink to this headline">¶</a></h3>
+<p>Currently Agave is designed to work with two databases, one for storing
+publications and one for storing projects. The second database is optional.
+To create both:</p>
+<div class="highlight-python"><pre>$ mysql
+mysql&gt; CREATE DATABASE agave_pr DEFAULT CHARACTER SET utf8
+       DEFAULT COLLATE utf8_general_ci;
+mysql&gt; CREATE DATABASE agave_pu DEFAULT CHARACTER SET utf8
+       DEFAULT COLLATE utf8_general_ci;
+mysql&gt; grant all privileges on agave_pr.* to user identified by 'userpw';
+mysql&gt; grant all privileges on agave_pu.* to user identified by 'userpw';</pre>
+</div>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Download the application:</p>
+<div class="highlight-python"><pre>$ git clone git://github.com/janaya/agave</pre>
+</div>
+</li>
+<li><p class="first">Create a virtualenv (you can choose any path to install the virtualenv):</p>
+<div class="highlight-python"><pre>$ virtualenv --no-site-packages /path/to/agaveenv -p python2.6</pre>
+</div>
+</li>
+<li><p class="first">Activate the virtualen and install dependencies:</p>
+<div class="highlight-python"><pre>$ source /path/to/agaveenv/bin/activate
+(agaveenv)$ pip install -E agaveenv -r agave/requirements/external_apps.txt</pre>
+</div>
+</li>
+<li><p class="first">(Optional) Download bioreader (for module pubmedxml2models) inside agave_prj or inside
+/path/to/agaveenv/lib/python2.6/site-packages:</p>
+<div class="highlight-python"><pre>$ cd /path/to/agaveenv/lib/python2.6/site-packages/
+$ hg clone http://bitbucket.org/jagan/bioreader</pre>
+</div>
+</li>
+</ol>
+<div class="section" id="customize-your-settings">
+<h3>Customize your settings<a class="headerlink" href="#customize-your-settings" title="Permalink to this headline">¶</a></h3>
+<p>Create a local_settings.py file inside the project directory
+(/path/to/agave/agave_prj) and the following configurations:</p>
+<ul>
+<li><p class="first">Settings for your DATABASES, for instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">-</span> <span class="p">{</span>
+<span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;agave_pr&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.mysql&#39;</span><span class="p">,</span>
+    <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="s">&#39;user&#39;</span><span class="p">,</span>
+    <span class="s">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s">&#39;userpw&#39;</span>
+<span class="p">},</span>
+<span class="s">&#39;instances&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;agave_pu&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.mysql&#39;</span><span class="p">,</span>
+    <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="s">&#39;user&#39;</span><span class="p">,</span>
+    <span class="s">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s">&#39;userpw&#39;</span>
+<span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">(Optional) For zemantatags module, set:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ZEMANTA_KEY</span> <span class="o">-</span> <span class="s">&#39;yourapikey&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">(Optional) For fpggdb2models module, set:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SN_DBSERVER</span> <span class="o">-</span> <span class="s">&#39;localhost&#39;</span>
+<span class="n">SN_DBNAME</span> <span class="o">-</span> <span class="s">&#39;dbuser&#39;</span>
+<span class="n">SN_DBUSER</span> <span class="o">-</span> <span class="s">&#39;dbpw&#39;</span>
+<span class="n">SN_DBPW</span> <span class="o">-</span> <span class="s">&#39;extranet_fpgg&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">(Optional) In case you&#8217;re running your own MeSH-SKOS endpoint, set:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SPARQL_ENDPOINT_LOCAL</span> <span class="o">-</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="initialize-the-databases">
+<h3>Initialize the databases<a class="headerlink" href="#initialize-the-databases" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Initialize the databases:</p>
+<div class="highlight-python"><pre>(agaveenv)$ cd agave_prj/
+(agaveenv)$ python manage.py syncdb
+(agaveenv)$ python manage.py syncdb --database-instances</pre>
+</div>
+</li>
+</ol>
+<p>You can now insert data through the API (see api.html) or initialize the
+database with different datasets.</p>
+<div class="section" id="initialize-publications-from-a-dump-of-pubmed-xml-publications">
+<h4>Initialize publications from a dump of Pubmed XML publications<a class="headerlink" href="#initialize-publications-from-a-dump-of-pubmed-xml-publications" title="Permalink to this headline">¶</a></h4>
+<p>You can load this dataset and generate the broader patterns relations between
+concepts and actor with one command:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py initialize_publications</pre>
+</div>
+<p>Or step by step:</p>
+<ol class="arabic">
+<li><p class="first">Load the dataset:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py pubmedxml2models</pre>
+</div>
+</li>
+<li><p class="first">Generate the broader patterns relations between concepts:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_CCbs_models</pre>
+</div>
+</li>
+<li><p class="first">Generate the broader patterns relations between actors:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_AAbs_models</pre>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="initialize-projects-from-an-external-database">
+<h4>Initialize projects from an external database<a class="headerlink" href="#initialize-projects-from-an-external-database" title="Permalink to this headline">¶</a></h4>
+<p>You can also load the dataset and generate the broader patterns relations in
+one command or do it step by step.
+With one command:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py initialize_projects</pre>
+</div>
+<p>Step by step:</p>
+<ol class="arabic">
+<li><p class="first">Load the dataset:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py fpggdb2models</pre>
+</div>
+<p>You will have to adapt fpggdb2models code to fit your database</p>
+</li>
+<li><p class="first">Generate the broader patterns relations between concepts:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_CCbs_models</pre>
+</div>
+</li>
+<li><p class="first">Generate the broader patterns relations between actors:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_AAbs_models</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="generating-the-graph-analysis">
+<h2>Generating the graph analysis<a class="headerlink" href="#generating-the-graph-analysis" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>(Optional) Generate graphs...</li>
+<li>(Optional) Load projects dataset</li>
+</ol>
+</div>
+<div class="section" id="running-the-web-application">
+<h2>Running the web application<a class="headerlink" href="#running-the-web-application" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="run-the-development-application">
+<h3>Run the development application<a class="headerlink" href="#run-the-development-application" title="Permalink to this headline">¶</a></h3>
+<p>Inside of agave_prj run:</p>
+<div class="highlight-python"><pre>(agavenv)$ python manage.py runserver</pre>
+</div>
+<p>Point your browser at <a class="reference external" href="http://localhost:8000/">http://localhost:8000/</a> and that&#8217;s all!</p>
+</div>
+<div class="section" id="optional-install-and-configure-your-apache-web-server">
+<h3>(Optional) Install and configure your Apache web server<a class="headerlink" href="#optional-install-and-configure-your-apache-web-server" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Installing requirements for Apache2 and WSGI</p>
+<p>In Debian Unstable:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install libapache2-mod-wsgi</pre>
+</div>
+<p>In Debian Lenny (edit sources list as explained in <em class="xref std std-ref">installing-requirements</em>):</p>
+<div class="highlight-python"><pre>$ sudo aptitude install libapache2-mod-wsgi/unstable</pre>
+</div>
+</li>
+<li><p class="first">Copy the configuration file and edit it to your needs:</p>
+<div class="highlight-python"><pre>$ cp projects/agave/deploy/agave.apache /etc/apache2/sites-available/agavedomain.com</pre>
+</div>
+</li>
+<li><p class="first">Enable the site and reload Apache:</p>
+<div class="highlight-python"><pre>$ sudo a2ensite /etc/apache2/sites-available/agavedomain.com
+$ sudo /etc/init.d/apache2 reload</pre>
+</div>
+</li>
+<li><p class="first">Remember to add to /etc/apache2/mods-enabled/mod_wsgi.conf to enable HTTP
+basic authentication for the REST API:</p>
+<div class="highlight-python"><pre>WSGIPassAuthorization On</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="update-documentation">
+<h2>Update documentation<a class="headerlink" href="#update-documentation" title="Permalink to this headline">¶</a></h2>
+<p>To update the documentation:</p>
+<div class="highlight-python"><pre>$ cd docs
+$ make html</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installing AGAVE on Debian/Ubuntu</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
+<li><a class="reference internal" href="#installing-requirements">Installing requirements</a></li>
+<li><a class="reference internal" href="#setting-up-the-databases">Setting up the databases</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#customize-your-settings">Customize your settings</a></li>
+<li><a class="reference internal" href="#initialize-the-databases">Initialize the databases</a><ul>
+<li><a class="reference internal" href="#initialize-publications-from-a-dump-of-pubmed-xml-publications">Initialize publications from a dump of Pubmed XML publications</a></li>
+<li><a class="reference internal" href="#initialize-projects-from-an-external-database">Initialize projects from an external database</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generating-the-graph-analysis">Generating the graph analysis</a></li>
+<li><a class="reference internal" href="#running-the-web-application">Running the web application</a><ul>
+<li><a class="reference internal" href="#run-the-development-application">Run the development application</a></li>
+<li><a class="reference internal" href="#optional-install-and-configure-your-apache-web-server">(Optional) Install and configure your Apache web server</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#update-documentation">Update documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">AGAVE - Affiliation Graphs Analysis and Visualisation Engine</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">Using AGAVE API</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/install.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="api.html" title="Using AGAVE API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="AGAVE - Affiliation Graphs Analysis and Visualisation Engine"
+             >previous</a> |</li>
+        <li><a href="index.html">Agave v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Julia Anaya.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>
