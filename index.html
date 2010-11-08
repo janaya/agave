@@ -11,9 +11,8 @@
 		body {
   		margin-top: 1.0em;
   		background-color: #ffffff;
-		  font-family: "Helvetica,Arial,FreeSans";
-font-size: 1.1em;
   		color: #000000;
+        font: normal 13px Verdana,Arial,'Bitstream Vera Sans',Helvetica,sans-serif;
     }
     #container {
       margin: 0 auto;
@@ -22,7 +21,7 @@ font-size: 1.1em;
 		h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
 		h1 .small { font-size: 0.4em; }
 		h1 a { color: green; }
-		h2 { font-size: 1.5em; color: #000000; }
+		h2 { color: #000000; font-size: 16px;}
     h3 { text-align: center; color: #000000; }
     a { color: green; text-decoration: none }
     a:hover {text-decoration: underline; }
@@ -60,7 +59,11 @@ instances, pictures, etc.), create broader/narrower relations between
 Concepts, generate graphs, analyse and provides and interface
 to interactively visualise these graphs.</p>
 <h2>Technologies</h2>
-<p></p>
+<p><ul>
+    <li>uses broader/narrower properties from <a href="">SKOS</a> ontology to determine relations between concepts</li>
+    <li>uses <a href="http://www.w3.org/TR/rdf-sparql-query/">SPARQL</a> to extract SKOS broader/narrower relations </li>
+</ul>
+</p>
 <h2>Publications</h2>
 <p>AGAVE implements the research approach exposed in <a href="http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf">
 Enrichment of affiliation networks and information discovery in SKOS-based 
