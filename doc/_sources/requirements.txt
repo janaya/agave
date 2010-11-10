@@ -4,9 +4,6 @@
 AGAVE requirements
 =================================
 
-Prerequisites
-=============
-
 To get started with AGAVE you must have the following installed:
 
  * `MySQL`_ 5.1+ 
