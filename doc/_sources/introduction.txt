@@ -1,29 +1,31 @@
 .. _ref-introduction:
 
-===============
-AGAVE - Affiliation Graphs Analysis and Visualisation Engine
-===============
+============
+About AGAVE
+============
 
 
 AGAVE reads a dataset based on the tripartite model of tagging
-(Actors: users, authors, etc, Concepts: tags, keywords and Instances: 
-instances, pictures, etc.), create broade/narrower relations between 
-Concepts, generate graphs, analyse and provides and interface
-to interactively visualise these graphs.
+(**Actors**: users, authors, etc, **Concepts**: tags, keywords and **Instances**: 
+publicatons, pictures, etc.), create broader/narrower relations between 
+Concepts, generate graphs, analyse them and provides and interface
+to interactively visualise the graphs.
 
 AGAVE implements the research approach exposed in the paper
-"Enrichment of affiliation networks and information discovery in SKOS-based 
-datasets" (available at
- http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf)
+`Enrichment of affiliation networks and information discovery in SKOS-based datasets`_ 
 
-AGAVE is designed to be reused as standalone modules or for other use
-cases.
 
 AGAVE is composed by the following modules:
- * pubmedxml2models: module to import XML Pubmed data about instances
- * fpggdb2models: module to import another database projects
- * ccbs_extractor: module to query SPARQL endpoint to extract broaders relations
- * zemanta_tags: module to extract concepts from projects with zemanta API  
- * graphanalysis: module to generate graph analyis and static graph images
- * json_graph: module to generate JSON graphs data to visualize interactively
- * module5: module to match projects tags with instances tags?
+ * ``agave``: main module that generate the graphs and plot the visualizations. 
+   It also contains the logic to convert Pubmed XML data or other database to the 
+   internal schema, generate the different graphs and to export them in csv or 
+   JSON format for further visualisation or analysis.
+ * ``agave_prj``: umbrella module (a Django project).
+ * ``zemanta_tags``: module to extract concepts from Instances abstract using zemanta API.  
+ * ``mesh_skos_broader``: module to extract broaders relations between Concepts from SPARQL endpoints.
+   Currently it uses Neurocommons endpoint and Medical Subject Headings (MeSH),
+   but can be easily adapted to other endpoints or other kind of Concepts.
+ * ``agave_graph_analysis``: module to generate network analysis and static graph images
+
+.. _Enrichment of affiliation networks and information discovery in SKOS-based datasets: http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf
+.. module5: module to match projects tags with instances tags?

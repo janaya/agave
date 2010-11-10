@@ -87,7 +87,7 @@ The same as getting JSON but the URL begins with "graph"
     
     http://localhost:8000/graph/instances/AC/2/actor/391/
 
-REST API to synchronize the databases
+API REST for CRUD operations
 =====================================
 Authentication
 --------------
@@ -178,7 +178,7 @@ Example:
     http://localhost:8000/rest/projects/instance/2/actor/2
         
 Method POST
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **/rest/<db>/instance/<instance_id>/actor/<actor_id>**
     
@@ -212,12 +212,12 @@ JSON as PUT body:
         @TODO: does it have sense to modifiy the id?
     
 Method DELETE
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **/rest/<db>/instance/<instance_id>/actor/<actor_id>**
 
 InstanceConcepts
---------------
+--------------------
 
 tables linking Concepts to Instances :
 
@@ -240,7 +240,7 @@ Example:
     http://localhost:8000/rest/projects/instance/2/concept/2
     
 Method POST
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **/rest/<db>/instance/<instance_id>/concept/<concept_id>**
 
@@ -272,7 +272,7 @@ JSON as PUT body:
 @TODO: does it have sense to modifiy the id?
     
 Method DELETE
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **/rest/<db>/instance/<instance_id>/concept/<concept_id>**
 
@@ -294,7 +294,7 @@ Example:
     http://localhost:8000/rest/projects/actor/2
     
 Method POST
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **/rest/<db>/actor/<actor_id>/**
     
@@ -317,7 +317,7 @@ JSON as PUT body:
         {"name": "Michael AA MIGLIOR"}
     
 Method DELETE
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **/rest/<db>/actor/<actor_id>/**
 
@@ -339,7 +339,7 @@ Example:
     http://localhost:8000/rest/projects/concept/2
         
 Method POST
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **/rest/<db>/concept/<concept_id>/**
     
@@ -362,7 +362,7 @@ JSON as PUT body:
         {"name": "Sleep deprivation2"}
     
 Method DELETE
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **/rest/<db>/concept/<concept_id>/**
 

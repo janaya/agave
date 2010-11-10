@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using AGAVE &mdash; AGAVE v0.3 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="/usr/share/jsmath/easy/load.js"></script>
+    <link rel="top" title="AGAVE v0.3 documentation" href="index.html" />
+    <link rel="next" title="Using AGAVE API" href="api.html" />
+    <link rel="prev" title="Installing AGAVE in Debian/Ubuntu" href="install.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="api.html" title="Using AGAVE API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installing AGAVE in Debian/Ubuntu"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">AGAVE v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="using-agave">
+<span id="ref-usage"></span><h1>Using AGAVE<a class="headerlink" href="#using-agave" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="initialising-publications-from-a-dump-of-pubmed-xml-publications">
+<h2>Initialising publications from a dump of Pubmed XML publications<a class="headerlink" href="#initialising-publications-from-a-dump-of-pubmed-xml-publications" title="Permalink to this headline">¶</a></h2>
+<p>You can load this dataset and generate the broader patterns relations between
+concepts and actor with one command:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py initialize_publications</pre>
+</div>
+<p>Or step by step:</p>
+<ol class="arabic">
+<li><p class="first">Load the dataset:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py pubmedxml2models</pre>
+</div>
+</li>
+<li><p class="first">Generate the broader patterns relations between concepts:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_CCbx_models</pre>
+</div>
+</li>
+<li><p class="first">Generate the broader patterns relations between actors:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_AAbx_models</pre>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="initialising-projects-from-an-external-database">
+<h2>Initialising projects from an external database<a class="headerlink" href="#initialising-projects-from-an-external-database" title="Permalink to this headline">¶</a></h2>
+<p>You can also load the dataset and generate the broader patterns relations in
+one command or do it step by step.
+With one command:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py initialize_projects</pre>
+</div>
+<p>Step by step:</p>
+<ol class="arabic">
+<li><p class="first">Load the dataset:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py fpggdb2models</pre>
+</div>
+<p>You will have to adapt fpggdb2models code to fit your database</p>
+</li>
+<li><p class="first">Generate the broader patterns relations between concepts:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_CCbx_models</pre>
+</div>
+</li>
+<li><p class="first">Generate the broader patterns relations between actors:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_AAbx_models</pre>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="running-agave-web-application">
+<h2>Running AGAVE Web application<a class="headerlink" href="#running-agave-web-application" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="run-the-development-application">
+<h3>Run the development application<a class="headerlink" href="#run-the-development-application" title="Permalink to this headline">¶</a></h3>
+<p>Inside of agave_prj run:</p>
+<div class="highlight-python"><pre>(agavenv)$ python manage.py runserver</pre>
+</div>
+<p>Point your browser at <a class="reference external" href="http://localhost:8000/">http://localhost:8000/</a></p>
+</div>
+<div class="section" id="optional-configure-your-apache-web-server">
+<h3>(Optional) Configure your Apache web server<a class="headerlink" href="#optional-configure-your-apache-web-server" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Install apache following the process described in <em class="xref std std-ref">install-apache</em></p>
+</li>
+<li><p class="first">Copy the configuration file and edit it to your needs:</p>
+<div class="highlight-python"><pre>$ cp projects/agave/deploy/agave.apache /etc/apache2/sites-available/agavedomain.com</pre>
+</div>
+</li>
+<li><p class="first">Enable the site and reload Apache:</p>
+<div class="highlight-python"><pre>$ sudo a2ensite /etc/apache2/sites-available/agavedomain.com
+$ sudo /etc/init.d/apache2 reload</pre>
+</div>
+</li>
+<li><p class="first">Remember to add to /etc/apache2/mods-enabled/mod_wsgi.conf to enable HTTP
+basic authentication for the REST API:</p>
+<div class="highlight-python"><pre>WSGIPassAuthorization On</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="generating-statistics">
+<h2>Generating statistics<a class="headerlink" href="#generating-statistics" title="Permalink to this headline">¶</a></h2>
+<p>Once the model and graphs have been generated</p>
+<blockquote>
+<ul>
+<li><p class="first">Generate statistics:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_statistics</pre>
+</div>
+</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="generating-global-graph-analysis">
+<h2>Generating global graph analysis<a class="headerlink" href="#generating-global-graph-analysis" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using AGAVE</a><ul>
+<li><a class="reference internal" href="#initialising-publications-from-a-dump-of-pubmed-xml-publications">Initialising publications from a dump of Pubmed XML publications</a></li>
+<li><a class="reference internal" href="#initialising-projects-from-an-external-database">Initialising projects from an external database</a></li>
+<li><a class="reference internal" href="#running-agave-web-application">Running AGAVE Web application</a><ul>
+<li><a class="reference internal" href="#run-the-development-application">Run the development application</a></li>
+<li><a class="reference internal" href="#optional-configure-your-apache-web-server">(Optional) Configure your Apache web server</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generating-statistics">Generating statistics</a></li>
+<li><a class="reference internal" href="#generating-global-graph-analysis">Generating global graph analysis</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">Installing AGAVE in Debian/Ubuntu</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">Using AGAVE API</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="api.html" title="Using AGAVE API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installing AGAVE in Debian/Ubuntu"
+             >previous</a> |</li>
+        <li><a href="index.html">AGAVE v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010 DERI, National University of Ireland, Galway.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

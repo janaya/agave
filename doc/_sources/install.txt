@@ -1,49 +1,11 @@
 .. _ref-install:
 
 =================================
-Installing AGAVE on Debian/Ubuntu
+Installing AGAVE in Debian/Ubuntu
 =================================
 
-Prerequisites
-=============
-
-To get started with Agave you must have the following installed:
-
- * `MySQL`_ 5.1+ 
- * Python 2.6+  many OSes come with an adequate version of Python. If you are
-   on Windows you will need to install it from `python.org`_.
- * `virtualenv`_ 1.4.7+
-
-Please, follow the process described in "Installing requirements" to install
-these requirement.
-
-The next requirements will be installed authomatically with the command
-``pip install -r agave/requirements/external_apps.txt``
-
- * `Django`_ 1.2+
- * for pubmedxml2models: `bioreader`_
- * for ccbs_extractor: `SPARQLWrapper`_ 1.4.1+
- * for graphanalysis: 
-  * `NetworkX`_ 1.1+
-  * `NumPy`_ 1.4+
-  * `matplotlib`_ 0.99+
-
-.. _MySQL: http://www.mysql.com/
-.. _python.org: http://python.org/
-.. _virtualenv: http://pypi.python.org/pypi/virtualenv
-.. _Django: http://www.djangoproject.com/
-.. _bioreader: http://bitbucket.org/jagan/bioreader/
-.. _SPARQLWrapper: http://sparql-wrapper.sourceforge.net/
-.. _NetworkX: http://networkx.lanl.gov/
-.. _NumPy: http://numpy.scipy.org/
-.. _matplotlib: http://matplotlib.sourceforge.net/
-
-NOTE: bioreader can also be found on http://sourceforge.net/projects/bioinforread/
-or http://code.google.com/p/nltk/source/browse/trunk/nltk_contrib/nltk_contrib/bioreader/?r=8404
-
-
 Installing requirements
------------------------
+=================================
 
 #. Installing basic requirements (Python and MySQL)
 
@@ -72,6 +34,17 @@ Installing requirements
 
      $ sudo aptitude install python2.6/unstable python-setuptools/unstable
 
+#. (Optional) Installing Apache2 web server and WSGI 
+
+   In Debian Unstable:: 
+ 
+    $ sudo aptitude install libapache2-mod-wsgi
+
+   In Debian Lenny (edit sources.list as explained above.)::
+
+     $ sudo aptitude install libapache2-mod-wsgi/unstable
+       
+
 #. Installing requirements to download other software from git and mercurial::
 
     $ sudo aptitude install git-core mercurial
@@ -81,41 +54,34 @@ Installing requirements
     $ sudo easy_install pip
     $ sudo pip install virtualenv
   
-#. (Optional) Installing R packages (for stadistics module)::
+.. #. (Optional) Installing R packages (for agave_graph_analysis module)::
+..    NOTE: Some parts of this module where lost and must be recovered!!
+..    It's not currently working (2010-11-08)
+   
+..     $ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix 
+..       r-recommended r-base-core r-base-html r-cran-boot r-cran-class 
+..       r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth 
+..       r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme 
+..       r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess
 
-    $ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix 
-      r-recommended r-base-core r-base-html r-cran-boot r-cran-class 
-      r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth 
-      r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme 
-      r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess
+..    Then install remaining R packages from R shell::
 
-#. (Optional) Installing and seting Sesame in case of you wish to run your own local repository::
+..     $ R
+..     > install.packages("sqldf")
+..     > install.packages("igraph")
 
-    $ sudo aptitude install sun-java6-jdk sun-java6-jre
-    $ tar -xvzf sesame_store_mesh2skos.sql.tar.gz
-    $ mysql -u user -p sesame_store_mesh2skos < sesame_store_mesh2skos.sql
-    $ mv apache-tomcat-6.0.2-sesame.tar.gx apache-tomcat-6.0.2-sesame.tar.gz
-    $ tar -xvzf apache-tomcat-6.0.2-sesame.tar.gz
-    $ sudo mv apache-tomcat-6.0.26 /usr/local/bin
-    $ sudo /usr/local/bin/apache-tomcat-6.0.26/bin/catalina.sh start
+.. #. (Optional) Installing and seting Sesame in case of you wish to run your own local repository::
 
-Setting up the databases
-------------------------
+..     $ sudo aptitude install sun-java6-jdk sun-java6-jre
+..     $ tar -xvzf sesame_store_mesh2skos.sql.tar.gz
+..     $ mysql -u user -p sesame_store_mesh2skos < sesame_store_mesh2skos.sql
+..     $ mv apache-tomcat-6.0.2-sesame.tar.gx apache-tomcat-6.0.2-sesame.tar.gz
+..     $ tar -xvzf apache-tomcat-6.0.2-sesame.tar.gz
+..     $ sudo mv apache-tomcat-6.0.26 /usr/local/bin
+..     $ sudo /usr/local/bin/apache-tomcat-6.0.26/bin/catalina.sh start
 
-Currently Agave is designed to work with two databases, one for storing 
-publications and one for storing projects. The second database is optional. 
-To create both::
-
-     $ mysql 
-     mysql> CREATE DATABASE agave_pr DEFAULT CHARACTER SET utf8 
-            DEFAULT COLLATE utf8_general_ci;
-     mysql> CREATE DATABASE agave_pu DEFAULT CHARACTER SET utf8 
-            DEFAULT COLLATE utf8_general_ci;
-     mysql> grant all privileges on agave_pr.* to user identified by 'userpw';
-     mysql> grant all privileges on agave_pu.* to user identified by 'userpw';
-       
-Installation
-============
+Installating AGAVE
+====================
 
 #. Download the application::
 
@@ -136,13 +102,28 @@ Installation
 	$ cd /path/to/agaveenv/lib/python2.6/site-packages/
 	$ hg clone http://bitbucket.org/jagan/bioreader
 
-Customize your settings
------------------------
+Creating the databases
+=================================
+
+Currently Agave is designed to work with two databases, one for storing 
+publications and one for storing projects. The second database is optional. 
+To create both::
+
+     $ mysql 
+     mysql> CREATE DATABASE agave_pr DEFAULT CHARACTER SET utf8 
+            DEFAULT COLLATE utf8_general_ci;
+     mysql> CREATE DATABASE agave_pu DEFAULT CHARACTER SET utf8 
+            DEFAULT COLLATE utf8_general_ci;
+     mysql> grant all privileges on agave_pr.* to user identified by 'userpw';
+     mysql> grant all privileges on agave_pu.* to user identified by 'userpw';
+       
+Customising settings
+=================================
 
 Create a local_settings.py file inside the project directory
-(/path/to/agave/agave_prj) and the following configurations:
+(/path/to/agave/agave_prj).
 
-* Settings for your DATABASES, for instance::
+* Set your databases names, user and password, for instance::
     
     DATABASES - {
     'default': {
@@ -159,133 +140,31 @@ Create a local_settings.py file inside the project directory
     }
 	}
 	
-* (Optional) For zemantatags module, set::
+* (Optional) for ``zemanta_tags`` module, set::
     
 	ZEMANTA_KEY - 'yourapikey'
     
-* (Optional) For fpggdb2models module, set::
+* (Optional) if you're initialising app with an external database, 
+  set also the name, user and password, for instance::
     
     SN_DBSERVER - 'localhost'
     SN_DBNAME - 'dbuser'
     SN_DBUSER - 'dbpw'
     SN_DBPW - 'extranet_fpgg'
     
-* (Optional) In case you're running your own MeSH-SKOS endpoint, set::
+* (Optional) In case you're running a local MeSH-SKOS endpoint, set::
  
  	SPARQL_ENDPOINT_LOCAL - True
 
-Initialize the databases
-------------------------
+Initialising databases
+=================================
 
-#. Initialize the databases::
+To create the initial schema, run::
 
     (agaveenv)$ cd agave_prj/
     (agaveenv)$ python manage.py syncdb
     (agaveenv)$ python manage.py syncdb --database-instances
 
-You can now insert data through the API (see api.html) or initialize the 
-database with different datasets.
+Now you can  insert data using the REST API (see :ref:`ref-api`) or initialising the 
+databases with the command line (see :ref:`ref-usage`).
 
-Initialize publications from a dump of Pubmed XML publications
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can load this dataset and generate the broader patterns relations between
-concepts and actor with one command::
-
-    (agaveenv)$ python manage.py initialize_publications
-
-Or step by step: 
-
-#. Load the dataset::
-
-    (agaveenv)$ python manage.py pubmedxml2models
-
-#. Generate the broader patterns relations between concepts::
-
-	(agaveenv)$ python manage.py generate_CCbs_models
-
-#. Generate the broader patterns relations between actors::
-
-	(agaveenv)$ python manage.py generate_AAbs_models
-
-
-Initialize projects from an external database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can also load the dataset and generate the broader patterns relations in
-one command or do it step by step.
-With one command::
-
-    (agaveenv)$ python manage.py initialize_projects
-
-Step by step:
-
-#. Load the dataset::
-
-    (agaveenv)$ python manage.py fpggdb2models
-    
-   You will have to adapt fpggdb2models code to fit your database
-
-
-#. Generate the broader patterns relations between concepts::
-
-	(agaveenv)$ python manage.py generate_CCbs_models
-
-#. Generate the broader patterns relations between actors::
-
-	(agaveenv)$ python manage.py generate_AAbs_models
-
-
-Generating the graph analysis
-=============================
-
-#. (Optional) Generate graphs...
-#. (Optional) Load projects dataset
-
-
-Running the web application
-===========================
-
-Run the development application
--------------------------------
-
-Inside of agave_prj run::
-
-    (agavenv)$ python manage.py runserver
-
-Point your browser at http://localhost:8000/ and that's all! 
-
-(Optional) Install and configure your Apache web server
--------------------------------------------------------
-  
-#. Installing requirements for Apache2 and WSGI 
-
-   In Debian Unstable:: 
- 
-    $ sudo aptitude install libapache2-mod-wsgi
-
-   In Debian Lenny (edit sources list as explained in :ref:`installing-requirements`)::
-
-     $ sudo aptitude install libapache2-mod-wsgi/unstable
-       
-#. Copy the configuration file and edit it to your needs::
-
-    $ cp projects/agave/deploy/agave.apache /etc/apache2/sites-available/agavedomain.com
-
-#. Enable the site and reload Apache::
-
-    $ sudo a2ensite /etc/apache2/sites-available/agavedomain.com
-    $ sudo /etc/init.d/apache2 reload
-
-#. Remember to add to /etc/apache2/mods-enabled/mod_wsgi.conf to enable HTTP 
-   basic authentication for the REST API::
-
-    WSGIPassAuthorization On
-
-Update documentation
-====================
-
-To update the documentation::
-	
-	$ cd docs
-	$ make html

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>AGAVE - Affiliation Graphs Analysis and Visualisation Engine &mdash; Agave v0.3 documentation</title>
+    <title>About AGAVE &mdash; AGAVE v0.3 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -23,8 +23,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="/usr/share/jsmath/easy/load.js"></script>
-    <link rel="top" title="Agave v0.3 documentation" href="index.html" />
-    <link rel="next" title="Installing AGAVE on Debian/Ubuntu" href="install.html" />
+    <link rel="top" title="AGAVE v0.3 documentation" href="index.html" />
+    <link rel="next" title="AGAVE requirements" href="requirements.html" />
     <link rel="prev" title="Welcome to Agave’s documentation!" href="index.html" /> 
   </head>
   <body>
@@ -35,12 +35,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="install.html" title="Installing AGAVE on Debian/Ubuntu"
+          <a href="requirements.html" title="AGAVE requirements"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to Agave’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Agave v0.3 documentation</a> &raquo;</li> 
+        <li><a href="index.html">AGAVE v0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -49,30 +49,28 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="agave-affiliation-graphs-analysis-and-visualisation-engine">
-<span id="ref-introduction"></span><h1>AGAVE - Affiliation Graphs Analysis and Visualisation Engine<a class="headerlink" href="#agave-affiliation-graphs-analysis-and-visualisation-engine" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="about-agave">
+<span id="ref-introduction"></span><h1>About AGAVE<a class="headerlink" href="#about-agave" title="Permalink to this headline">¶</a></h1>
 <p>AGAVE reads a dataset based on the tripartite model of tagging
-(Actors: users, authors, etc, Concepts: tags, keywords and Instances:
-instances, pictures, etc.), create broade/narrower relations between
-Concepts, generate graphs, analyse and provides and interface
-to interactively visualise these graphs.</p>
+(<strong>Actors</strong>: users, authors, etc, <strong>Concepts</strong>: tags, keywords and <strong>Instances</strong>:
+publicatons, pictures, etc.), create broader/narrower relations between
+Concepts, generate graphs, analyse them and provides and interface
+to interactively visualise the graphs.</p>
 <p>AGAVE implements the research approach exposed in the paper
-&#8220;Enrichment of affiliation networks and information discovery in SKOS-based
-datasets&#8221; (available at</p>
-<blockquote>
-<a class="reference external" href="http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf">http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf</a>)</blockquote>
-<p>AGAVE is designed to be reused as standalone modules or for other use
-cases.</p>
+<a class="reference external" href="http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf">Enrichment of affiliation networks and information discovery in SKOS-based datasets</a></p>
 <dl class="docutils">
 <dt>AGAVE is composed by the following modules:</dt>
 <dd><ul class="first last simple">
-<li>pubmedxml2models: module to import XML Pubmed data about instances</li>
-<li>fpggdb2models: module to import another database projects</li>
-<li>ccbs_extractor: module to query SPARQL endpoint to extract broaders relations</li>
-<li>zemanta_tags: module to extract concepts from projects with zemanta API</li>
-<li>graphanalysis: module to generate graph analyis and static graph images</li>
-<li>json_graph: module to generate JSON graphs data to visualize interactively</li>
-<li>module5: module to match projects tags with instances tags?</li>
+<li><tt class="docutils literal"><span class="pre">agave</span></tt>: main module that generate the graphs and plot the visualizations.
+It also contains the logic to convert Pubmed XML data or other database to the
+internal schema, generate the different graphs and to export them in csv or
+JSON format for further visualisation or analysis.</li>
+<li><tt class="docutils literal"><span class="pre">agave_prj</span></tt>: umbrella module (a Django project).</li>
+<li><tt class="docutils literal"><span class="pre">zemanta_tags</span></tt>: module to extract concepts from Instances abstract using zemanta API.</li>
+<li><tt class="docutils literal"><span class="pre">mesh_skos_broader</span></tt>: module to extract broaders relations between Concepts from SPARQL endpoints.
+Currently it uses Neurocommons endpoint and Medical Subject Headings (MeSH),
+but can be easily adapted to other endpoints or other kind of Concepts.</li>
+<li><tt class="docutils literal"><span class="pre">agave_graph_analysis</span></tt>: module to generate network analysis and static graph images</li>
 </ul>
 </dd>
 </dl>
@@ -88,8 +86,8 @@ cases.</p>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Welcome to Agave&#8217;s documentation!</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="install.html"
-                        title="next chapter">Installing AGAVE on Debian/Ubuntu</a></p>
+  <p class="topless"><a href="requirements.html"
+                        title="next chapter">AGAVE requirements</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/introduction.txt"
@@ -119,16 +117,16 @@ cases.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="install.html" title="Installing AGAVE on Debian/Ubuntu"
+          <a href="requirements.html" title="AGAVE requirements"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to Agave’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">Agave v0.3 documentation</a> &raquo;</li> 
+        <li><a href="index.html">AGAVE v0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2010, Julia Anaya.
+        &copy; Copyright 2010 DERI, National University of Ireland, Galway.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
     </div>
   </body>
