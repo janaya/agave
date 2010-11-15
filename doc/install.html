@@ -102,6 +102,23 @@ Pin-Priority: 600</pre>
 $ sudo pip install virtualenv</pre>
 </div>
 </li>
+<li><p class="first">(Optional) Installing R packages (for <tt class="docutils literal"><span class="pre">agave_graph_analysis</span> <span class="pre">module</span></tt>):</p>
+<div class="highlight-python"><pre>$ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix
+  r-recommended r-base-core r-base-html r-cran-boot r-cran-class
+  r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth
+  r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme
+  r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess</pre>
+</div>
+<p>Then install R packages from R shell:</p>
+<div class="highlight-python"><pre>$ R
+&gt; install.packages("sqldf")
+&gt; install.packages("igraph")
+    &gt; install.packages("ppls")
+    &gt; install.packages("gplots")</pre>
+</div>
+</li>
+<li><p class="first">(Optional) To setup you our local Sesame repositories (see <a class="reference internal" href="installsesame.html#ref-installsesame"><em>Installing a local mesh-skos repository with Sesame in Debian/Ubuntu</em></a>)</p>
+</li>
 </ol>
 </div>
 <div class="section" id="installating-agave">
@@ -115,7 +132,7 @@ $ sudo pip install virtualenv</pre>
 <div class="highlight-python"><pre>$ virtualenv --no-site-packages /path/to/agaveenv -p python2.6</pre>
 </div>
 </li>
-<li><p class="first">Activate the virtualen and install dependencies:</p>
+<li><p class="first">Activate the virtualenv and install dependencies:</p>
 <div class="highlight-python"><pre>$ source /path/to/agaveenv/bin/activate
 (agaveenv)$ pip install -E agaveenv -r agave/requirements/external_apps.txt</pre>
 </div>
@@ -180,7 +197,7 @@ set also the name, user and password, for instance:</p>
 </div>
 </li>
 <li><p class="first">(Optional) In case you&#8217;re running a local MeSH-SKOS endpoint, set:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">SPARQL_ENDPOINT_LOCAL</span> <span class="o">-</span> <span class="bp">True</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SPARQL_ENDPOINT_LOCAL</span> <span class="o">=</span> <span class="bp">True</span>
 </pre></div>
 </div>
 </li>

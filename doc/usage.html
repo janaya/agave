@@ -142,6 +142,22 @@ basic authentication for the REST API:</p>
 </div>
 <div class="section" id="generating-global-graph-analysis">
 <h2>Generating global graph analysis<a class="headerlink" href="#generating-global-graph-analysis" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<ul>
+<li><p class="first">Generate graphs csv:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_graphs_csv</pre>
+</div>
+<p>This will generate .csv files inside output_csv</p>
+</li>
+<li><p class="first">Generate global graphs image:</p>
+<div class="highlight-python"><pre>    $ cd agave_graph_analysis
+agave_graph_analysis$ R
+&gt; source('generate_AAc_CCa_AAb_CCb.R')</pre>
+</div>
+<p>The graph images should be in output_plots</p>
+</li>
+</ul>
+</blockquote>
 </div>
 </div>
 

@@ -54,31 +54,23 @@ Installing requirements
     $ sudo easy_install pip
     $ sudo pip install virtualenv
   
-.. #. (Optional) Installing R packages (for agave_graph_analysis module)::
-..    NOTE: Some parts of this module where lost and must be recovered!!
-..    It's not currently working (2010-11-08)
+#. (Optional) Installing R packages (for ``agave_graph_analysis module``)::
    
-..     $ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix 
-..       r-recommended r-base-core r-base-html r-cran-boot r-cran-class 
-..       r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth 
-..       r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme 
-..       r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess
+    $ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix 
+      r-recommended r-base-core r-base-html r-cran-boot r-cran-class 
+      r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth 
+      r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme 
+      r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess
 
-..    Then install remaining R packages from R shell::
+   Then install R packages from R shell::
 
-..     $ R
-..     > install.packages("sqldf")
-..     > install.packages("igraph")
+    $ R
+    > install.packages("sqldf")
+    > install.packages("igraph")
+	> install.packages("ppls")
+	> install.packages("gplots")
 
-.. #. (Optional) Installing and seting Sesame in case of you wish to run your own local repository::
-
-..     $ sudo aptitude install sun-java6-jdk sun-java6-jre
-..     $ tar -xvzf sesame_store_mesh2skos.sql.tar.gz
-..     $ mysql -u user -p sesame_store_mesh2skos < sesame_store_mesh2skos.sql
-..     $ mv apache-tomcat-6.0.2-sesame.tar.gx apache-tomcat-6.0.2-sesame.tar.gz
-..     $ tar -xvzf apache-tomcat-6.0.2-sesame.tar.gz
-..     $ sudo mv apache-tomcat-6.0.26 /usr/local/bin
-..     $ sudo /usr/local/bin/apache-tomcat-6.0.26/bin/catalina.sh start
+#. (Optional) To setup you our local Sesame repositories (see :ref:`ref-installsesame`)
 
 Installating AGAVE
 ====================
@@ -91,7 +83,7 @@ Installating AGAVE
 
     $ virtualenv --no-site-packages /path/to/agaveenv -p python2.6
 
-#. Activate the virtualen and install dependencies::
+#. Activate the virtualenv and install dependencies::
 
     $ source /path/to/agaveenv/bin/activate
     (agaveenv)$ pip install -E agaveenv -r agave/requirements/external_apps.txt
@@ -154,7 +146,7 @@ Create a local_settings.py file inside the project directory
     
 * (Optional) In case you're running a local MeSH-SKOS endpoint, set::
  
- 	SPARQL_ENDPOINT_LOCAL - True
+ 	SPARQL_ENDPOINT_LOCAL = True
 
 Initialising databases
 =================================

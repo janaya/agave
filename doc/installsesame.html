@@ -1,0 +1,156 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing a local mesh-skos repository with Sesame in Debian/Ubuntu &mdash; AGAVE v0.3 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="/usr/share/jsmath/easy/load.js"></script>
+    <link rel="top" title="AGAVE v0.3 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">AGAVE v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-a-local-mesh-skos-repository-with-sesame-in-debian-ubuntu">
+<span id="ref-installsesame"></span><h1>Installing a local mesh-skos repository with Sesame in Debian/Ubuntu<a class="headerlink" href="#installing-a-local-mesh-skos-repository-with-sesame-in-debian-ubuntu" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p class="first">Install java:</p>
+<div class="highlight-python"><pre>$ sudo sun-java6-jre sun-java6-jdk</pre>
+</div>
+</li>
+<li><p class="first">Download tomcat:</p>
+<div class="highlight-python"><pre>$ wget http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.26/bin/apache-tomcat-6.0.26.tar.gz
+$ tar -xvzf apache-tomcat-6.0.26.tar.gz
+$ sudo mv apache-tomcat-6.0.26 /usr/local/bin
+$ rm apache-tomcat-6.0.26.tar.gz</pre>
+</div>
+</li>
+<li><p class="first">Configure tomcat manager user:</p>
+<div class="highlight-python"><pre>sudo vim /usr/local/bin/apache-tomcat-6.0.26/conf/tomcat-users.xml</pre>
+</div>
+<p>Add a manager role:</p>
+<div class="highlight-python"><pre>&lt;role rolename="manager"/&gt;
+&lt;user username="tomcat" password="tomcat" roles="manager"/&gt;</pre>
+</div>
+</li>
+<li><p class="first">Download and install the Java ODBC plugin:</p>
+<div class="highlight-python"><pre>$ wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.13.tar.gz/from/http://mysql.easynet.be/
+$ tar -xvzf mysql-connector-java-5.1.13.tar.gz
+$ sudo cp mysql-connector-java-5.1.13/mysql-connector-java-5.1.13-bin.jar /usr/local/bin/apache-tomcat-6.0.26/lib/
+$ rm -rf mysql-connector-java-5.1.13*</pre>
+</div>
+</li>
+<li><p class="first">Download and install Sesame:</p>
+<p>You could also install it through the Tomcat Manager web interface after starting Sesame server:
+<a class="reference external" href="http://localhost:8080/manager/html">http://localhost:8080/manager/html</a></p>
+<p>To do it in the shell:</p>
+<div class="highlight-python"><pre>    $ wget http://downloads.sourceforge.net/project/sesame/Sesame%202/2.3.2/openrdf-sesame-2.3.2-sdk.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fsesame%2Ffiles%2FSesame%25202%2F2.3.2%2F&amp;ts=1289313287&amp;use_mirror=heanet
+    $ tar -xvzf openrdf-sesame-2.3.2-sdk.tar.gz
+$ cp openrdf-sesame-2.3.2-sdk/war/openrdf-*.war /usr/local/bin/apache-tomcat-6.0.26/webapps
+$ rm -rf openrdf-sesame-2.3.2-sdk*</pre>
+</div>
+</li>
+<li><p class="first">Start Sesame server:</p>
+<div class="highlight-python"><pre>$ sudo /usr/local/bin/apache-tomcat-6.0.26/bin/catalina.sh start</pre>
+</div>
+</li>
+<li><p class="first">Create the Sesame MySQL database:</p>
+<div class="highlight-python"><pre>$ CREATE DATABASE sesame_store;
+$ grant all privileges on sesame_store.* to 'sesameuser'@'%' identified by 'sesamepw';</pre>
+</div>
+</li>
+<li><p class="first">Create the mesh-skos Sesame repository:</p>
+<p>Through the web interface:</p>
+<p>Go to <a class="reference external" href="http://localhost:8080/openrdf-workbench/repositories/SYSTEM/">http://localhost:8080/openrdf-workbench/repositories/SYSTEM/</a></p>
+<p>Click on <tt class="docutils literal"><span class="pre">New</span> <span class="pre">Repository</span></tt>, on <tt class="docutils literal"><span class="pre">Type</span></tt> select <tt class="docutils literal"><span class="pre">Mysql</span> <span class="pre">RDF</span> <span class="pre">Store</span></tt>,
+introduce the <tt class="docutils literal"><span class="pre">Title</span></tt> and <tt class="docutils literal"><span class="pre">ID</span></tt>, the database name, user and password</p>
+</li>
+<li><p class="first">Download mesh-skos bundles:</p>
+<div class="highlight-python"><pre>$ mkdir ncbundles
+$ cd ncbundles
+$ rsync -a rsync.neurocommons.org::mesh/ mesh/</pre>
+</div>
+<p>Downloading also the mesh-eswc06 bundle will add transitive dataset</p>
+</li>
+<li><p class="first">Add mesh-skos bundles to Sesame repository</p>
+<p>Through the web interface:</p>
+<p>Go to <a class="reference external" href="http://localhost:8080/openrdf-workbench/repositories/">http://localhost:8080/openrdf-workbench/repositories/</a></p>
+<p>Click on <tt class="docutils literal"><span class="pre">Add</span></tt> and select ncbundles/mesh/mesh-skos/meshdata.rdf file</p>
+<p>Do the same with ncbundles/mesh/mesh-skos/meshstructure.rdf file</p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/installsesame.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">AGAVE v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010 DERI, National University of Ireland, Galway.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

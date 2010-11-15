@@ -97,16 +97,17 @@ Once the model and graphs have been generated
 Generating global graph analysis
 ========================================
 
-.. * Generate graphs csv::
+ * Generate graphs csv::
 
-.. 	(agaveenv)$ python manage.py generate_graphs_csv
+ 	(agaveenv)$ python manage.py generate_graphs_csv
 
-..    This will generate .csv files inside output_csv
+   This will generate .csv files inside output_csv
 
-..  * Generate global graphs image::
+ * Generate global graphs image::
 
-..     agave_graph_analysis$ R
-..     > source('data-explore.R')
+	$ cd agave_graph_analysis
+    agave_graph_analysis$ R
+    > source('generate_AAc_CCa_AAb_CCb.R')
 
-..    The graph images should be in output_plots
+   The graph images should be in output_plots
 
