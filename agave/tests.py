@@ -1,5 +1,7 @@
-from django.test import TestCase
-from tests_models import *
+#from tests_models import *
+from agave.tests_models import RestTests, ActorHandlerTestCase, \
+    InstanceHandlerTestCase, ConceptHandlerTestCase, InstanceActorHandlerTestCase, \
+    InstanceConceptHandlerTestCase, JsonRestTestCase
 
 class MainTestCase(RestTests):
     def test_rest_all(self):

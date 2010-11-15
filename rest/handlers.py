@@ -21,22 +21,26 @@
 #
 # TODO:
 
-from agave.all import *
-from agave.controller_graph_models_generator import *
-#from agave.controller_json_graph_generators import *
-from zemanta_tags.zemanta_tags_extractor import *
-from agave.models import Actor, Instance, Concept, InstanceActor, \
-    InstanceConcept
+from agave.all import nonejson
+from agave.controller_js_graph_generators import *
+from agave.controller_CCbx_models_generator import create_CCbx_from_C, \
+    delete_CCbx_from_I, delete_CCbx_from_C
+from agave.controller_graph_models_generator import create_CI_from_I, \
+    generate_CCp, delete_CI_from_I, delete_CCp_from_I, create_AC_from_A_I, \
+    create_AAp_from_I_A, create_CCa_from_A_I, create_AAc_from_A_I, \
+    delete_AAp_from_I_A, delete_AC_from_I_A, delete_AAc_from_I_A, \
+    delete_CCa_from_I_A, create_AC_from_C_I, create_CCp_from_I, \
+    create_CCa_from_C_I, create_AAc_from_C_I, delete_AC_from_I_C, \
+    delete_AAc_from_I_C, delete_CCa_from_I_C, delete_CCp_from_I_C
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404, Http404
-from django.template import RequestContext
-from django.template.loader import render_to_string
-from django.utils import simplejson as json
-from piston.doc import generate_doc
 from piston.handler import BaseHandler, AnonymousBaseHandler
-from piston.utils import rc, validate, require_mime #, require_extended
-import logging
+from piston.utils import rc #, validate, require_mime #, require_extended
+from zemanta_tags.zemanta_tags_extractor import extract_concepts
+#import logging
+#from django.db import IntegrityError
+#from agave.models import Actor, Instance, Concept, InstanceActor, \
+#    InstanceConcept
 
 BaseHandler.fields = AnonymousBaseHandler.fields = ()
 
@@ -145,7 +149,7 @@ class ActorHandler(BaseHandler):
         attrs = self.flatten_dict(request.PUT)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -245,7 +249,7 @@ class InstanceHandler(BaseHandler):
         else:
             return base.all()
 
-   #@require_mime('json')
+    #@require_mime('json')
     def create(self, request, db):
         """
         Example JSON as POST body:
@@ -268,7 +272,7 @@ class InstanceHandler(BaseHandler):
         attrs = self.flatten_dict(request.POST)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -321,7 +325,7 @@ class InstanceHandler(BaseHandler):
         attrs = self.flatten_dict(request.PUT)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -430,7 +434,7 @@ class InstanceActorHandler(BaseHandler):
         attrs = self.flatten_dict(request.POST)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -492,7 +496,7 @@ class InstanceActorHandler(BaseHandler):
         attrs = self.flatten_dict(request.POST)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -623,7 +627,7 @@ class InstanceConceptHandler(BaseHandler):
         attrs = self.flatten_dict(request.POST)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -678,7 +682,7 @@ class InstanceConceptHandler(BaseHandler):
         attrs = self.flatten_dict(request.POST)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -722,7 +726,7 @@ class InstanceConceptHandler(BaseHandler):
             return rc.NOT_FOUND
         else:
             # delete AAp
-            delete_Cs_Csi_from_I_C(p, c, db)
+            delete_CCp_from_I_C(p, c, db)
 
             # delete AC
             delete_AC_from_I_C(p, c, db)
@@ -789,7 +793,7 @@ class ConceptHandler(BaseHandler):
         attrs = self.flatten_dict(request.POST)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -807,7 +811,7 @@ class ConceptHandler(BaseHandler):
             try:
                 c = self.model(**attrs)
                 c.save(using=db)
-                logging.debug("Created C: " + p.__unicode__())
+                logging.debug("Created C: " + c.__unicode__())
 
             except IntegrityError:
                 logging.debug(rc.DUPLICATE_ENTRY)
@@ -830,7 +834,7 @@ class ConceptHandler(BaseHandler):
         attrs = self.flatten_dict(request.PUT)
         if request.content_type:
             try:
-               data = request.data
+                data = request.data
             except AttributeError:
                 pass
             else:
@@ -864,7 +868,7 @@ class ConceptHandler(BaseHandler):
         except ObjectDoesNotExist:
             return rc.NOT_FOUND
         else:
-            delete_CCbx_from_C(concept)
+            delete_CCbx_from_C(c)
 
             c.delete(using=db)
             return rc.DELETED
@@ -879,7 +883,6 @@ class ConceptHandler(BaseHandler):
 #    pass
 
 
-from agave.controller_json_graph_generators import *
 class GraphsJsonHandler(BaseHandler):
     allowed_methods = ('GET')
 #

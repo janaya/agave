@@ -21,8 +21,9 @@
 #
 # TODO:
 
-from agave.controller_graph_models_generator import *
-from django.core.management.base import BaseCommand, CommandError
+from agave.controller_graph_models_generator import generate_AAba, \
+     generate_AAbb, generate_AAbc
+from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
 

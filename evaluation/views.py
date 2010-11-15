@@ -22,12 +22,11 @@
 # TODO:
 
 from django.shortcuts import render_to_response, get_object_or_404, Http404
-from django.template.loader import render_to_string
-from django.template import RequestContext
 from django.http import HttpResponse
 #import simplejson as json
 from django.utils import simplejson as json
-from agave.forms import EvaluationForm
+from evaluation.forms import EvaluationForm
+from agave.models import Actor
 
 #def evaluation(request):
 #    if request.method == 'POST':

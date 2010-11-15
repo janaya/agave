@@ -21,8 +21,9 @@
 #
 # TODO:
 
-from django.core.management.base import BaseCommand, CommandError
-from agave.initialize_models import generate_AAbc_weighted, generate_AAbbc_weighted, generate_AAbabc_weighted
+from django.core.management.base import BaseCommand
+from agave.controller_graph_models_generator import generate_AAbc_weighted, \
+     generate_AAbbc_weighted, generate_AAbabc_weighted
 class Command(BaseCommand):
 
     def handle(self, *args, **options):

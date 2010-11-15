@@ -22,7 +22,7 @@
 # TODO:
 
 from django.db import models
-from agave.models import *
+from agave.models import Actor
 ##############################################################################
 # EVALUATION (not being used)
 ##############################################################################

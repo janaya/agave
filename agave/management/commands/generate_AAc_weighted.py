@@ -21,8 +21,9 @@
 #
 # TODO:
 
-from django.core.management.base import BaseCommand, CommandError
-from agave.initialize_models import generate_AAc_weighted_from_Aconcept
+from django.core.management.base import BaseCommand
+from agave.controller_graph_models_generator import \
+     generate_AAc_weighted_from_Aconcept
 
 class Command(BaseCommand):
 

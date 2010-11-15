@@ -21,17 +21,18 @@
 # Description
 #
 # TODO:
+from agave.controller_graphs_queries import get_A_ids_from_AAp_from_A, \
+    get_Aweight_dict_from_AAp_from_A, get_Aweight_dict_from_AAc_from_A, \
+    getAweight_dict_from_AAb_from_A, get_Aweight_dict_from_AAn_from_A, \
+    get_Aweight_dict_from_AAbb_from_A, get_Aweight_dict_from_AAbc_from_A, \
+    get_Aweight_dict_from_AAbnbc_from_A, get_Aweight_list_from_C, \
+    get_Aidsweight_from_AAb_from_A
+from agave.models import Actor, AAc, ActorConcept, CCb
+from django.utils import simplejson
+import logging
 
 #__all__ = ['']
 
-from collections import defaultdict
-from django.conf import settings
-from django.db import connection, connections, transaction
-from django.db.models import Avg, Max, Min, Count, F
-from django.utils import simplejson
-from agave.models import *
-from agave.controller_graphs_queries import *
-import string
 
 TYPE_ACTOR = 1
 TYPE_CONCEPT = 0
@@ -94,7 +95,7 @@ def get_AAp_json_from_A(a, db='default', number_nodes=40):
         anodes = [{'nodeName':a.name, 'type':TYPE_INITIAL}] + \
         [{'nodeName':Actor.objects.using(db).get(id=aid).name, 'type':TYPE_ACTOR}
          for aid in aids]
-    
+
     #    aedges = [{'source':a.id,'target':aid, 'value':1} for aid in aids]
         aedges = nodes_list_to_json_edges(anodes)
     else:
@@ -158,10 +159,12 @@ def get_AAc_weight_json_from_A(a, db='default', number_nodes=40):
 
 def get_AAb_json_from_A(a, db='default', number_nodes=40):
     aids = set([])
-    [[[aids.add(a) for a in br.actors.all()] for br in concept.broaders.all()]
-                                                    for concept in a.concepts.all()]
-    anodes = [{'nodeName':a.name, 'group':2}] + [{'nodeName':aid.name, 'group':2}
-                                                 for aid in aids]
+    [[[aids.add(a)
+       for a in br.actors.all()]
+            for br in concept.broaders.all()]
+                for concept in a.concepts.all()]
+    anodes = [{'nodeName':a.name, 'group':2}] + \
+             [{'nodeName':aid.name, 'group':2} for aid in aids]
     aedges = nodes_list_to_json_edges(anodes)
     data = {'nodes':anodes, 'links':aedges}
     content = "var jsondata = " + simplejson.dumps(data, ensure_ascii=False)

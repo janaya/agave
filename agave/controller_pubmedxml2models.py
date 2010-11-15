@@ -22,12 +22,14 @@
 # TODO:
 
 from MySQLdb import OperationalError
-from agave.models import *
+from agave.models import Instance, Actor, InstanceActor, Concept, \
+    InstanceConcept, ActorConcept, AAp, CCp, CCa, AAc, CCb, CCbb, CCbc, AAba, \
+    AAbb, AAbc, AAcw, AAbcw, AAbbcw, AAbabcw, CCball, AAball, ACb
 from django import db
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import IntegrityError
-from exceptions import TypeError
+from itertools import combinations
 import glob
+import logging
 import random
 import sys
 try:
@@ -169,33 +171,33 @@ def generate_actor_and_instance_actor(p, actor, weight):
         print p
         print actor_name
         print actor_duplicates
-        import ipdb; ipdb.set_trace()
+#        import ipdb; ipdb.set_trace()
     try:
-        a, created = Actor.objects.get_or_create(name=actor)
+        a = Actor.objects.get_or_create(name=actor)
     except OperationalError:
         print "\nActor with same name?"
-        import ipdb; ipdb.set_trace()
+#        import ipdb; ipdb.set_trace()
         name = random.randint(1, 10)
-        a, created = Actor.objects.get_or_create(name='%s' % name)
+        a = Actor.objects.get_or_create(name='%s' % name)
         a_same_name.append((actor, name))
     #    if not self in a.datasets.all():
     #        a.datasets.add(self)
         # a instance must contain only once an actor, unless we are parsing again
         # although we were creating another dataset, the actor-instance weight is the same
-    pa, created = InstanceActor.objects.get_or_create(actor=a, instance=p, weight=weight)
+    InstanceActor.objects.get_or_create(actor=a, instance=p, weight=weight)
 #        if not created:
 #            print "\nInstance-Actor" + pa.actor.name + pa.instance.title + " already in the database, are you parsing again the XML?"
     return a_duplicate, a_same_name
 
 def generate_concept_and_instanceconcept(p, concept, weight):
     # the concept can already exists from other instance
-    concept, created = Concept.objects.get_or_create(name=concept)
+    Concept.objects.get_or_create(name=concept)
 #    if not self in concept.datasets.all():
 #        concept.datasets.add(self)
 
     # a instance must contain only once an concept, unless we are parsing again
     # although we were creating another dataset, the concept-instance weight is the same
-    pconcept, created = InstanceConcept.objects.get_or_create(instance=p, concept=concept, weight=weight)
+    InstanceConcept.objects.get_or_create(instance=p, concept=concept, weight=weight)
 #        if not created:
 #            print "\nInstance-concept" + pconcept.instance.title + pconcept.concept.name + " already in the database, are you parsing again the XML?"
 
@@ -247,7 +249,7 @@ def generate_AAc(p):
 def generate_CCbb():
     for concept_to_id in CCb.objects.values('concept_to').distinct() :
 #        for ccb.concept_from in CCb.objects.filter(concept_to__id = concept_to__id):
-        concept = Concept.objects.get(id=concept_to__id)
+        concept = Concept.objects.get(id=concept_to_id)
         for concept_from, concept_to in combinations(concept.narrowers.all(), 2):
             CCbb.objects.get_or_create(concept_from=concept_from, concept_parent=concept, concept_to=concept_to)
 
@@ -450,15 +452,24 @@ def generate_AAball():
                     AAball.objects.get_or_create(actor_from=a_from, actor_to=a_to)
     db.reset_queries()
 
-
+#   AAc.objects.filter(actor_from__in=aconcept).filter(actor_to__in=aconcept)
+#
+#    for aac in AAc.objects.all():
+#        if not AAcall.object.filter(actor_from=aac.actor_to, actor_to=aac.actor_from):
+#            AAcall.object.get_or_create(actor_from=aac.actor_from, actor_to=aac.actor_to)
+# 
     aac = list(AAc.objects.values('actor_from', 'actor_to').distinct())
-    [AAball.objects.get_or_create(actor_from=aace['actor_from'], actor_to=aace['actor_to']) for aace in aac if not AAball.objects.filtere(actor_from=aace['actor_to'], actor_to=aace['actor_from'])]
+    [AAball.objects.get_or_create(actor_from=aace['actor_from'],
+                                  actor_to=aace['actor_to'])
+        for aace in aac
+            if not AAball.objects.filter(actor_from=aace['actor_to'],
+                                         actor_to=aace['actor_from'])]
 
 def generate_ACb():
     aids = [aconcept['actor'] for aconcept in ActorConcept.objects.filter(weight__gte=10).values('actor').distinct()]
-    actors = Actor.objects.filter(id__in=aids)
+#    actors = Actor.objects.filter(id__in=aids)
     cids = [aconcept['concept'] for aconcept in ActorConcept.objects.filter(weight__gte=10).values('concept').distinct()]
-    concepts = Concept.objects.filter(id__in=cids)
+#    concepts = Concept.objects.filter(id__in=cids)
     for ccb in CCball.objects.filter(concept_from__id__in=cids, concept_to__id__in=cids):
         as_from = ccb.concept_from.actors.filter(id__in=aids)
         as_to = ccb.concept_to.actors.filter(id__in=aids)
@@ -470,14 +481,3 @@ def generate_ACb():
             ACb.objects.get_or_create(actor=a, concept=ccb.concept_from)
         for a in as_to:
             ACb.objects.get_or_create(actor=a, concept=ccb.concept_to)
-
-##################3
-
-def generate_AAball():
-    AAc.objects.filter(actor_from__in=aconcept).filter(actor_to__in=aconcept)
-
-    for aac in AAc.objects.all():
-        if not AAcall.object.filter(actor_from=aac.actor_to, actor_to=aac.actor_from):
-            AAcall.object.get_or_create(actor_from=aac.actor_from, actor_to=aac.actor_to)
-    aac = list(AAc.objects.values('actor_from', 'actor_to').distinct())
-    [AAball.objects.get_or_create(actor_from=aace['actor_from'], actor_to=aace['actor_to']) for aace in aac if not AAball.objects.filtere(actor_from=aace['actor_to'], actor_to=aace['actor_from'])]

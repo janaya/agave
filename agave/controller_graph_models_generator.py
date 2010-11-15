@@ -455,7 +455,7 @@ def generate_AAc(p):
 def generate_CCbb():
     for concept_to_id in CCb.objects.values('concept_to').distinct() :
 #        for ccb.concept_from in CCb.objects.filter(concept_to__id = concept_to__id):
-        concept = Concept.objects.get(id=concept_to__id)
+        concept = Concept.objects.get(id=concept_to_id)
         for concept_from, concept_to in combinations(concept.narrowers.all(), 2):
             CCbb.objects.get_or_create(concept_from=concept_from, concept_parent=concept, concept_to=concept_to)
 

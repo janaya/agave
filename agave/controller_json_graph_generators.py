@@ -24,14 +24,16 @@
 
 #__all__ = ['']
 
-from collections import defaultdict
-from django.conf import settings
-from django.db import connection, connections, transaction
-from django.db.models import Avg, Max, Min, Count, F
+
+from agave.controller_graphs_queries import get_A_ids_from_AAp_from_A, \
+    get_Aweight_dict_from_AAp_from_A, get_Aweight_dict_from_AAc_from_A, \
+    getAweight_dict_from_AAb_from_A, get_Aweight_dict_from_AAn_from_A, \
+    get_Aweight_dict_from_AAbb_from_A, get_Aweight_dict_from_AAbc_from_A, \
+    get_Aweight_dict_from_AAbnbc_from_A, get_Aweight_list_from_C, \
+    get_Aidsweight_from_AAb_from_A
+from agave.models import Actor, AAc, ActorConcept, CCb
 from django.utils import simplejson
-from agave.models import *
-from agave.controller_graphs_queries import *
-import string
+import logging
 
 TYPE_ACTOR = 1
 TYPE_CONCEPT = 0

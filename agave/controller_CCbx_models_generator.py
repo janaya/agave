@@ -29,8 +29,10 @@
     * Solve settings import error
 """
 from django.core.exceptions import ObjectDoesNotExist
-from mesh_skos_broader.mesh_skos_broader_extractor import *
-from agave.models import *
+from mesh_skos_broader.mesh_skos_broader_extractor import \
+    getMeSHURIfromMeSHname, getbroaders, getnarrowers
+from agave.models import Concept, CCb, CCbb, CCbc
+import logging
 
 #from django.conf.settings import SPARQL_ENDPOINT_LOCAL
 SPARQL_ENDPOINT_LOCAL = False
@@ -72,7 +74,7 @@ def delete_CCbx_from_C(c, db='default'):
 #        logging.debug("Deleted CCb:" + ccb.__unicode__())
 
 
- ###########################################################################
+###########################################################################
 
     for ccbb in CCbb.objects.using(db).filter(concept_from=c,
                                              concept_parent__not_in_dataset=True):

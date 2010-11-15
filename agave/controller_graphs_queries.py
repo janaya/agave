@@ -24,14 +24,10 @@
 
 #__all__ = ['']
 
-from collections import defaultdict
+from agave.models import ActorConcept, AAp, AAc
 from django.conf import settings
-from django.db import connection, connections, transaction
-from django.db.models import Avg, Max, Min, Count, F
-from django.utils import simplejson
-from agave.models import *
-import string
-#from agave.models import *
+from django.db import connections
+from django.db.models import Count
 
 def get_Aweight_list_from_C(c, db='default', number_nodes=40):
     """
@@ -359,3 +355,71 @@ def get_Aweight_dict_from_AAbnbc_from_A(a, db='default', number_nodes=40):
 #    w_anodes = dict(row)
 #    return w_anodes
 ##############################################################################
+
+def concept(c):
+    if isinstance(c, Concept):
+        return c
+    else:
+        return Concept.objects.get(name=c)
+
+def actor(a):
+    if isinstance(a, Actor):
+        return a
+    else:
+        return Actor.objects.get(name=a)
+
+def actors_weight_from_broaders_from_concept(c):
+    """
+    >>>d = dict([(br,[(aconcepts.actor, aconcepts.weight) for aconcepts in ActorConcept.objects.filter(concept=br)]) for br in concept(c).broaders.all()])
+    {<Concept: Microscopy>: [(<Author: Kremer Y Y>, 1L),
+                    (<Author: Léger J-F JF>, 1L),
+    >>> rev_dict_of_lists(d)
+    <Author: Amigorena Sebastian S>: [<Concept: Cell Surface Extensions>]}
+    >>>[dict(zip(("broader","actors"), x)) for x in d.items()]
+    'broader': <Concept: Cell Surface Extensions>},
+ {'actors': [<Author: Salomé R R>,
+              <Author: Kremer Y Y>,
+
+    """
+    #d = dict([
+    #        (br.name,[(aconcepts.actor.name, aconcepts.weight) 
+    #        for aconcepts in ActorConcept.objects.filter(concept=br)]) 
+    #                for br in concept.broaders.all()])
+    concept = concept(c)
+    print concept
+    print isinstance(concept, Concept)
+    d = dict([
+            (br.name, [(aconcepts.actor.name, aconcepts.weight)
+            for aconcepts in ActorConcept.objects.filter(concept=br).order_by('-weight', 'actor__name')])
+                    for br in concept.broaders.filter(not_in_dataset=False)])
+    return [dict(zip(("broader", "actors"), x)) for x in d.items()]
+
+
+def actors_weight_from_narrowers_from_concept(c):
+    """
+    c<-c-a, CCba U ACp
+      <    \a    
+         \c-a
+        
+    >>> dict([(br,[(aconcepts.actor, aconcepts.weight) for aconcepts in ActorConcept.objects.filter(concept=br.concept_from)]) for  br in Concept.objects.get(name="Microscopy, Electron").is_broader_of.all()])
+     <Concept: Microscopy, Electron, Transmission>: [(<Author: Lizárraga Floria F>, 1L),
+    ...
+    """
+    """
+    return [(br, br.actors.all()) for br in concept.is_broader_of.all()]    
+    """
+    """
+    d = dict([
+        (br.concept_from.name,[(aconcepts.actor, aconcepts.weight) 
+        for aconcepts in ActorConcept.objects.filter(concept=br.concept_from).order_by('-weight')]) 
+        for  br in CCb.objects.filter(concept_to = concept).filter(concept_from__not_in_dataset=False)])
+    """
+    concept = concept(c)
+    d = dict([
+        (br.concept_from.name, [(aconcepts.actor.name, aconcepts.weight)
+        for aconcepts in ActorConcept.objects.filter(concept=br.concept_from).order_by('-weight', 'actor__name')])
+        for  br in concept.is_broader_of.filter(concept_from__not_in_dataset=False)])
+    return d
+
+def aalljsonweights(a):
+    pass

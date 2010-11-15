@@ -21,13 +21,12 @@
 #
 # TODO:
 
-from django.core.management.base import BaseCommand, CommandError
-from optparse import make_option
+from agave.controller_CCbx_models_generator import create_CCbx
+from agave.controller_graph_models_generator import generate_AAba, generate_AAbb, \
+    generate_AAbc
+from agave.controller_pubmedxml2models import generate_models
 from django.conf import settings
-import os.path
-from agave.controller_pubmedxml2models import *
-from agave.controller_CCbx_models_generator import  *
-from agave.controller_graph_models_generator import *
+from django.core.management.base import BaseCommand
 from optparse import make_option
 import os.path
 
@@ -40,9 +39,9 @@ class Command(BaseCommand):
 #    args = '<poll_id poll_id ...>'
     help = 'Initialize publications database with Pubmed XML file'
     option_list = BaseCommand.option_list + (
-        make_option('--path', '-p', dest='path', default= pubmed_path,
+        make_option('--path', '-p', dest='path', default=pubmed_path,
             help='Path to Pubmed XML file/s'),
-        make_option('--numberfiles', '-n', dest='numberfiles', default = None,
+        make_option('--numberfiles', '-n', dest='numberfiles', default=None,
             help='Number of files to parse')
     )
 

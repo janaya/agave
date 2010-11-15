@@ -21,11 +21,11 @@
 #
 # TODO:
 
-from django.core.management.base import BaseCommand, CommandError
-from optparse import make_option
-from django.conf import settings
-import os.path
-from agave.controller_graphs_csv_generator import *
+from agave.controller_graphs_csv_generator import generate_C_names_csv, \
+    generate_K_C_names_csv, generate_A_names_csv, generate_AC_csv, generate_CCb_csv, \
+    generate_ACb_csv
+from django.core.management.base import BaseCommand
+#from agave.controller_graphs_csv_generator import *
 
 class Command(BaseCommand):
 

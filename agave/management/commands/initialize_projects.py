@@ -21,10 +21,11 @@
 #
 # TODO:
 
-from django.core.management.base import BaseCommand, CommandError
-from agave.controller_pubmedxml2models import *
-from agave.controller_CCbx_models_generator import  *
-from agave.controller_graph_models_generator import *
+from django.core.management.base import BaseCommand
+from agave.controller_pubmedxml2models import generate_models
+from agave.controller_CCbx_models_generator import create_CCbx
+from agave.controller_graph_models_generator import generate_AAba, \
+        generate_AAbb, generate_AAbc
 
 class Command(BaseCommand):
 #    args = '<path path ...>'
@@ -32,7 +33,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 #        generate_models(options['path'])
 
-        fpggdb2models()
+        generate_models()
         create_CCbx()
         generate_AAba()
         generate_AAbb()

@@ -26,16 +26,16 @@
 #   * results with actors
 #   * http://www.jstree.com/documentation/json_data#, http://www.jstree.com/documentation/themes
 
+from agave.controller_graphs_queries import actors_weight_from_broaders_from_concept, \
+    actors_weight_from_narrowers_from_concept, aalljsonweights, \
+    get_Aweight_list_from_C
+from agave.forms import SearchForm
+from agave.models import Concept, Actor
+from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, Http404
 from django.template.loader import render_to_string
-from django.template import RequestContext
-from django.http import HttpResponse
-#import simplejson as json
 from django.utils import simplejson as json
-from django.contrib.auth.decorators import login_required
-from agave.forms import SearchForm
-from agave.all import *
-from agave.controller_json_graph_generators import *
 
 def search(request):
     if request.method == 'POST':
@@ -126,138 +126,8 @@ def aabnbc_actor(request):
     print q
     object_type, instance = is_actor_or_concept(q)
     if object_type == 'Actor':
-        content = aabnbcjsonweights(instance)
+        content = aalljsonweights(instance)
     return HttpResponse(content=content, mimetype='text/plain; charset=utf8')
-
-##@login_required
-#def graph_js(request, db, graphtype, graphsubtype):
-#    """
-#    @param graphtype: {AA, CC, AC}
-#    @param graphsubtype: {c,p,b,n,s,a} in the case of AA
-#    @return: HTTP response with JSON content and 
-#        mimetype=text/plain; charset=utf8
-#    @TODO: 
-#        * generate error if a argument is not provided
-#        * generate error or do another thing if argument is not Actor
-#    """
-##    print request.user
-##    if not request.user.is_authenticated():
-##        resp = HttpResponse("Authorization Required")
-##        resp['WWW-Authenticate'] = 'Basic realm="TestApplication"'
-##        resp.status_code = 401
-##        return resp
-#
-#    print "in graph_json"
-#    if db == 'projects': db = 'default'
-#    print db
-#    a = request.GET.get("a", None)
-#    print a
-#    object_type, instance = is_actor_or_concept(a, db)
-#    if object_type == 'Actor':
-#        if graphtype == 'AA':
-#            if graphsubtype == 'c':
-#                content = get_AAc_weight_json_from_A(instance, db)
-#            elif graphsubtype == 'p':
-#                content = get_AAp_json_from_A(instance, db)
-#            elif graphsubtype == 'b':
-#                content = get_AAb_weight_json_from_A(instance, db)
-#            elif graphsubtype == 'n':
-#                content = aanjsonweights(instance, db)
-#            elif graphsubtype == 's':
-#                content = aabbjsonweights(instance, db)
-#            elif graphsubtype == 'a':
-#                content = aabcjsonweights(instance, db)
-#            elif graphsubtype == 'l':
-#                content = get_AAbnbc_weight_json_from_A(instance, db)
-#        elif graphtype == 'CC':
-#            if graphsubtype == 'a':
-#    #            content = aget_AC_weight_json_from_A(instance)
-#                pass
-#            elif graphsubtype == 'b':
-#                content = get_CCb_weight_json_from_A(instance, db)
-#    #        elif AAgraphtype=='n':
-#    #            content = aanjsonweights(instance)
-#    #        elif AAgraphtype=='s':
-#    #            content = aabbjsonweights(instance)
-#    #        elif AAgraphtype=='a':
-#    #            content = aabcjsonweights(instance)
-#        elif graphtype == 'AC':
-#            if graphsubtype == '1':
-#                content = get_AC_weight_json_from_A(instance, db)
-#            elif graphsubtype == '2':
-#                content = get_AC_weight_2l_json_from_A(instance, db)
-#                pass
-#    else:
-#        # or return error?
-#        content = nonejson()
-#        #return django.views.defaults.page_not_found()
-#    return HttpResponse(content=content, mimetype='text/plain; charset=utf8')
-#
-#
-#from agave.controller_js_graph_generators import *
-#def graph_json(request, db, graphtype, graphsubtype):
-#    """
-#    @param graphtype: {AA, CC, AC}
-#    @param graphsubtype: {c,p,b,n,s,a} in the case of AA
-#    @return: HTTP response with JSON content and 
-#        mimetype=text/plain; charset=utf8
-#    @TODO: 
-#        * generate error if a argument is not provided
-#        * generate error or do another thing if argument is not Actor
-#    """
-##    print request.user
-##    if not request.user.is_authenticated():
-##        resp = HttpResponse("Authorization Required")
-##        resp['WWW-Authenticate'] = 'Basic realm="TestApplication"'
-##        resp.status_code = 401
-##        return resp
-#
-#    print "in graph_json"
-#    if db == 'projects': db = 'default'
-#    print db
-#    a = request.GET.get("a", None)
-#    print a
-#    object_type, instance = is_actor_or_concept(a, db)
-#    if object_type == 'Actor':
-#        if graphtype == 'AA':
-#            if graphsubtype == 'c':
-#                content = get_AAc_weight_json_from_A(instance, db)
-#            elif graphsubtype == 'p':
-#                content = get_AAp_json_from_A(instance, db)
-#            elif graphsubtype == 'b':
-#                content = get_AAb_weight_json_from_A(instance, db)
-#            elif graphsubtype == 'n':
-#                content = aanjsonweights(instance, db)
-#            elif graphsubtype == 's':
-#                content = aabbjsonweights(instance, db)
-#            elif graphsubtype == 'a':
-#                content = aabcjsonweights(instance, db)
-#            elif graphsubtype == 'e':
-#                content = get_AAbnbc_weight_json_from_A(instance, db)
-#        elif graphtype == 'CC':
-#            if graphsubtype == 'a':
-#    #            content = aget_AC_weight_json_from_A(instance)
-#                pass
-#            elif graphsubtype == 'b':
-#                content = get_CCb_weight_json_from_A(instance, db)
-#    #        elif AAgraphtype=='n':
-#    #            content = aanjsonweights(instance)
-#    #        elif AAgraphtype=='s':
-#    #            content = aabbjsonweights(instance)
-#    #        elif AAgraphtype=='a':
-#    #            content = aabcjsonweights(instance)
-#        elif graphtype == 'AC':
-#            if graphsubtype == '1':
-#                content = get_AC_weight_json_from_A(instance, db)
-#            elif graphsubtype == '2':
-#                content = get_AC_weight_2l_json_from_A(instance, db)
-#                pass
-#    else:
-#        # or return error?
-#        content = nonejson()
-#        #return django.views.defaults.page_not_found()
-#    return HttpResponse(content=content, mimetype='text/plain; charset=utf8')
-
 
 ##@login_required
 #def graph_graph(request, db, graphtype, graphsubtype):
@@ -309,26 +179,26 @@ def graph_visualization(request, db, graphtype, graphsubtype, actor_id):
                     content_type="application/javascript")
         else:
             print "request is not ajax"
-            return render_to_response('graph_visualization.html', {'jsonurl': url})
+            return render_to_response('graph_visualization.html',
+                                      {'jsonurl': url})
 
 def autocomplete_concepts(request):
-  if request.GET.has_key('q'):
-    concepts = \
-      Concept.objects.filter(name__istartswith=request.GET['q'])[:10]
-    return HttpResponse('\n'.join(concept.name for concept in concepts))
-  return HttpResponse()
+    if request.GET.has_key('q'):
+        concepts = \
+            Concept.objects.filter(name__istartswith=request.GET['q'])[:10]
+        return HttpResponse('\n'.join(concept.name for concept in concepts))
+    return HttpResponse()
 
 def autocomplete_names(request):
-  if request.GET.has_key('q'):
-    instances = \
-      list(Concept.objects.filter(name__istartswith=request.GET['q'])) + \
-      list(Actor.objects.filter(name__istartswith=request.GET['q']))[:10]
-    return HttpResponse('\n'.join(instance.name for instance in instances))
-  return HttpResponse()
+    if request.GET.has_key('q'):
+        instances = \
+            list(Concept.objects.filter(name__istartswith=request.GET['q'])) + \
+            list(Actor.objects.filter(name__istartswith=request.GET['q']))[:10]
+        return HttpResponse('\n'.join(instance.name for instance in instances))
+    return HttpResponse()
 
 
 #from agave.generate_nxgraph import *
-from django.conf import settings
 def actors_broaders_concept_image(request):
     q = request.GET.get("q", None)
 

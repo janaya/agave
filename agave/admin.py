@@ -36,25 +36,18 @@ class ConoceptInline(admin.TabularInline):
 class InstanceActorInline(admin.TabularInline):
     model = Instance.actors.through
     extra = 0
-    classes = ['collapse', 'collapsed'] 
-    readonly_fields = ('instance','actor','weight')
+    classes = ['collapse', 'collapsed']
+    readonly_fields = ('instance', 'actor', 'weight')
 
 class InstanceConceptInline(admin.TabularInline):
     model = Instance.concepts.through
     extra = 0
-    readonly_fields = ('instance','concept','weight')
+    readonly_fields = ('instance', 'concept', 'weight')
 
 class ActorConceptInline(admin.TabularInline):
     model = Actor.concepts.through
     extra = 0
-    readonly_fields = ('actor','concept','weight')
-
-class ActorConceptInline(admin.TabularInline):
-    model = ActorConcept
-    extra = 0
-    readonly_fields = ('actor','concept','weight')
-
-
+    readonly_fields = ('actor', 'concept', 'weight')
 
 #class ConoceptBroaderInline(admin.TabularInline):
 #    model = Concept.broaders.through
@@ -82,10 +75,10 @@ class CCaFromInline(admin.TabularInline):
     extra = 0
 
 class BroaderAdmin(admin.ModelAdmin):
-    readonly_fields = ('concept_from','concept_to')
+    readonly_fields = ('concept_from', 'concept_to')
     list_filter = ('concept_to',)
-    list_display = ('concept_from','concept_to',)
-    search_fields = ['concept_to__name','concept_from__name']
+    list_display = ('concept_from', 'concept_to',)
+    search_fields = ['concept_to__name', 'concept_from__name']
 #    inlines = [
 #        BroaderFromInline,
 #    ]
@@ -126,8 +119,8 @@ class ActorAdmin(admin.ModelAdmin):
     ]
 
 class ConceptAdmin(admin.ModelAdmin):
-    exclude = ('dburi','sparqled_broaders_db', 'sparqled_broaders_nc')
-    readonly_fields = ('name','meshuri','actors','broaders', 'runningHead','not_in_dataset')
+    exclude = ('dburi', 'sparqled_broaders_db', 'sparqled_broaders_nc')
+    readonly_fields = ('name', 'meshuri', 'actors', 'broaders', 'runningHead', 'not_in_dataset')
     search_fields = ['name'] # ,'instance_concept_set__title']
     ordering = ('name',)
 #    list_display = ()

@@ -21,8 +21,8 @@
 #
 # TODO:
 
-from django.core.management.base import BaseCommand, CommandError
-from agave.controller_CCbx_models_generator import *
+from django.core.management.base import BaseCommand
+from agave.controller_CCbx_models_generator import create_CCbx
 
 class Command(BaseCommand):
 

@@ -21,17 +21,17 @@
 #
 # TODO:
 
-from django.db import IntegrityError, models
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from exceptions import TypeError
-import glob
-import logging
-import os.path
-try:
-    from itertools import combinations
-except ImportError:
-#    from utils import combinations
-    print "python 2.6 is required"
+#from exceptions import TypeError
+#import glob
+#import logging
+#import os.path
+#try:
+#    from itertools import combinations
+#except ImportError:
+##    from utils import combinations
+#    print "python 2.6 is required"
 #try:
 #    import networkx as nx
 #    from networkx.exception import NetworkXError

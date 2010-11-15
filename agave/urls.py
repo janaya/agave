@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import *
-from django.conf import settings
 
 urlpatterns = patterns('',
 #    url(r'^doc/$', 'django.views.generic.simple.direct_to_template', {'template': 'api_graphs.html'}),
@@ -22,7 +21,7 @@ urlpatterns += patterns('agave.views',
                                             'graph_visualization', name="graph_visualization"),
     url(r'^graphv/(?P<db>\w+)/(?P<graphtype>[A,C]{2})/(?P<graphsubtype>[a-z,1,2]{1})/concept/(?P<actor_id>\w+)/$',
                                             'graph_visualization', name="graph_visualization"),
-                                            
+
     url(r'^projects/search/$', 'search', name="search"),
     url(r'^projects/concepts/$', 'autocomplete_concepts', name='autocomplete_concepts'),
     url(r'^projects/names/$', 'autocomplete_names', name='autocomplete_names'),

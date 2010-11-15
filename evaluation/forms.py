@@ -22,7 +22,7 @@
 # TODO:
 
 from django import forms
-from agave.models import Evaluation
+from evaluation.models import Evaluation
 
 class EvaluationForm(forms.ModelForm):
     actor_name = forms.CharField(widget=forms.widgets.HiddenInput())

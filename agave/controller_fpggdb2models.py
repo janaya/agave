@@ -21,24 +21,14 @@
 #
 # TODO:
 
-from MySQLdb import OperationalError
-from django import db
+from agave.controller_graph_models_generator import create_CI_from_I, \
+    generate_CCp, create_AAp_from_I_A, create_AC_from_A_I, create_CCa_from_A_I, \
+    create_AAc_from_A_I
+from agave.models import Instance, Actor, InstanceActor
 from django.conf import settings
-from django.db import IntegrityError, IntegrityError
-from django.utils import simplejson
-from exceptions import TypeError
-from pprint import pprint
-from agave.controller_graph_models_generator import *
-from zemanta_tags.zemanta_tags_extractor import *
-from agave.models import *
+from zemanta_tags.zemanta_tags_extractor import extract_concepts
 import MySQLdb
-import glob
-import random
-import urllib
 
-#from fpggsna.models import *
-#_mysql_exceptions.IntegrityError
-#from pysqlite2.dbapi2 import IntegrityError
 SN_DBSERVER = settings.SN_DBSERVER
 SN_DBUSER = settings.SN_DBUSER
 SN_DBPW = settings.SN_DBUSER

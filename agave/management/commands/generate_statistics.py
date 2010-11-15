@@ -21,11 +21,8 @@
 #
 # TODO:
 
-from django.core.management.base import BaseCommand, CommandError
-from optparse import make_option
-from django.conf import settings
-import os.path
-from agave.controller_statistics_generator import *
+from django.core.management.base import BaseCommand
+from agave.controller_statistics_generator import print_statistics
 
 class Command(BaseCommand):
 
