@@ -1,1 +1,87 @@
-To be imported...
+AGAVE - Affiliation Graphs Analysis and Visualisation Engine
+===============================================================
+
+AGAVE reads a dataset based on the tripartite model of tagging
+(Actors: users, authors, etc, Concepts: tags, keywords and Instances: 
+instances, pictures, etc.), create broade/narrower relations between 
+Concepts, generate graphs, analyse and provides and interface
+to interactively visualise these graphs.
+
+AGAVE implements the research approach exposed in the paper
+"Enrichment of affiliation networks and information discovery in SKOS-based 
+datasets" (available at
+ http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf)
+
+AGAVE is designed to be reused as standalone modules or for other use
+cases.
+
+AGAVE is composed by the following modules:
+ * pubmedxml2models: module to import XML Pubmed data about instances
+ * fpggdb2models: module to import another database projects
+ * ccbs_extractor: module to query SPARQL endpoint to extract broaders relations
+ * zemanta_tags: module to extract concepts from projects with zemanta API  
+ * graphanalysis: module to generate graph analyis and static graph images
+ * json_graph: module to generate JSON graphs data to visualize interactively
+ * module5: module to match projects tags with instances tags?
+
+
+Authors: Julia Anaya <julia.anaya@gmail.com>
+
+Copyright (c) 2010, Digital Enterprise Research Institute (DERI),NUI Galway.
+
+Acknoledgments: this project is partially fundend by Hypios Research, Paris.
+
+For license information, see LICENSE
+
+For installation information, see INSTALL
+
+homepage is:
+    http://github.com/janaya/agave
+Development happens on:
+    http://github.com/janaya/agave
+    
+REQUIREMENTS:
+-------------
+
+Please, see INSTALL to know how to install these requirements
+
+    * MySQL >= 5.1
+    * Python >= 2.6
+    * Django >= 1.2
+    * virtualenv >= 1.4.7
+
+Depending on which modules you are going to use, you could need also:
+
+    * pubmedxml2models:
+      - bioreader 
+    * ccbs_extractor:
+      - SPARQLWrapper >= 1.4.1
+    * graphanalysis:
+      - NetworkX >= 1.1
+      - NumPy >= 1.4
+      - matplotlib >= 0.99
+
+If you would like to run the application in a production server you will need
+ a web server like Apache
+
+
+USAGE
+-----
+
+    Please, see INSTALL and docs/_build/html/api.html
+
+
+FEATURES:
+---------
+     
+    * platform independent (written in python)
+    * shell mode (to use manually...
+
+
+PLANNED FEATURES:
+-----------------
+
+    * Reimplement with a graph database as Neo4j
+    * Convert, store and process the data as RDF instead of relational models
+
+

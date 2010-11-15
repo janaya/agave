@@ -1,0 +1,32 @@
+<VirtualHost 88.190.12.149:80>
+        ServerName mydomain.org
+        ServerAdmin   webmaster@mydomain.org
+
+        ErrorLog /srv/djangosites/mydomain.org/var/log/error.log
+        LogLevel warn
+        CustomLog /srv/djangosites/mydomain.org/var/log/access.log combined
+        LogLevel debug
+
+        WSGIScriptAlias / /srv/djangosites/mydomain.org/releases/FPGGraphs/agave_prj/deploy/agave_prj.wsgi
+        WSGIDaemonProcess mydomain.org threads=10 python-path=/srv/djangosites/mydomain.org/fpgg-env/lib/python2.6/site-agave.ages
+        WSGIProcessGroup mydomain.org
+
+        <Directory /srv/djangosites/mydomain.org/releases/FPGGraphs/agave_prj/deploy>
+            Order deny,allow
+            Allow from all
+        </Directory>
+        Alias /site_media /srv/djangosites/mydomain.org/releases/FPGGraphs/agave_prj/site_media
+        Alias /media/ /srv/djangosites/mydomain.org/fpgg-env/lib/python2.6/site-agave.ages/django/contrib/admin/media/
+        <Directory /srv/djangosites/mydomain.org/releases/FPGGraphs/agave_prj/>
+            Order deny,allow
+            Allow from all
+        </Directory>
+        <Directory /srv/djangosites/mydomain.org/fpgg-env/lib/python2.6/site-agave.ages/djangosites/contrib/admin/media>
+            Order deny,allow
+            Allow from all
+        </Directory>
+        <LocationMatch "\.(jpg|css|gif|pdf|ico)$">
+            SetHandler None
+        </LocationMatch>
+</VirtualHost>
+

@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing AGAVE in Debian/Ubuntu &mdash; AGAVE v0.3 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="/usr/share/jsmath/easy/load.js"></script>
+    <link rel="top" title="AGAVE v0.3 documentation" href="index.html" />
+    <link rel="next" title="Using AGAVE" href="usage.html" />
+    <link rel="prev" title="AGAVE requirements" href="requirements.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="usage.html" title="Using AGAVE"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="requirements.html" title="AGAVE requirements"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">AGAVE v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-agave-in-debian-ubuntu">
+<span id="ref-install"></span><h1>Installing AGAVE in Debian/Ubuntu<a class="headerlink" href="#installing-agave-in-debian-ubuntu" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installing-requirements">
+<h2>Installing requirements<a class="headerlink" href="#installing-requirements" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Installing basic requirements (Python and MySQL)</p>
+<p>In Debian Unstable:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install mysql-server python2.6 python-setuptools
+  libmysqlclient-dev python2.6-dev</pre>
+</div>
+<p>In Debian Lenny, you will have add unstable repository or backports for python2.6 support:</p>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li><p class="first">Add to /etc/apt/sources.list:</p>
+<div class="highlight-python"><pre>deb http://ftp.us.debian.org/debian unstable main non-free contrib</pre>
+</div>
+</li>
+<li><p class="first">Add to /etc/apt/preferences:</p>
+<div class="highlight-python"><pre>Package: *
+Pin: release a=stable
+Pin-Priority: 700
+
+Package: *
+Pin: release a=unstable
+Pin-Priority: 600</pre>
+</div>
+</li>
+<li><p class="first">Then install the packages:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install python2.6/unstable python-setuptools/unstable</pre>
+</div>
+</li>
+</ul>
+</blockquote>
+<ol class="arabic">
+<li><p class="first">(Optional) Installing Apache2 web server and WSGI</p>
+<p>In Debian Unstable:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install libapache2-mod-wsgi</pre>
+</div>
+<p>In Debian Lenny (edit sources.list as explained above.):</p>
+<div class="highlight-python"><pre>$ sudo aptitude install libapache2-mod-wsgi/unstable</pre>
+</div>
+</li>
+<li><p class="first">Installing requirements to download other software from git and mercurial:</p>
+<div class="highlight-python"><pre>$ sudo aptitude install git-core mercurial</pre>
+</div>
+</li>
+<li><p class="first">Installing requirements for the virtualenv:</p>
+<div class="highlight-python"><pre>$ sudo easy_install pip
+$ sudo pip install virtualenv</pre>
+</div>
+</li>
+</ol>
+<ol class="arabic simple">
+<li>(Optional) To setup you our local Sesame repositore (see <a class="reference internal" href="installsesame.html#ref-installsesame"><em>Installing a local mesh-skos repository with Sesame in Debian/Ubuntu</em></a>)</li>
+</ol>
+</div>
+<div class="section" id="installating-agave">
+<h2>Installating AGAVE<a class="headerlink" href="#installating-agave" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Download the application:</p>
+<div class="highlight-python"><pre>$ git clone git://github.com/janaya/agave</pre>
+</div>
+</li>
+<li><p class="first">Create a virtualenv (you can choose any path to install the virtualenv):</p>
+<div class="highlight-python"><pre>$ virtualenv --no-site-packages /path/to/agaveenv -p python2.6</pre>
+</div>
+</li>
+<li><p class="first">Activate the virtualenv and install dependencies:</p>
+<div class="highlight-python"><pre>$ source /path/to/agaveenv/bin/activate
+(agaveenv)$ pip install -E agaveenv -r agave/requirements/external_apps.txt</pre>
+</div>
+</li>
+<li><p class="first">(Optional) Download bioreader (for module pubmedxml2models) inside agave_prj or inside
+/path/to/agaveenv/lib/python2.6/site-packages:</p>
+<div class="highlight-python"><pre>$ cd /path/to/agaveenv/lib/python2.6/site-packages/
+$ hg clone http://bitbucket.org/jagan/bioreader</pre>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="creating-the-databases">
+<h2>Creating the databases<a class="headerlink" href="#creating-the-databases" title="Permalink to this headline">¶</a></h2>
+<p>Currently Agave is designed to work with two databases, one for storing
+publications and one for storing projects. The second database is optional.
+To create both:</p>
+<div class="highlight-python"><pre>$ mysql
+mysql&gt; CREATE DATABASE agave_pr DEFAULT CHARACTER SET utf8
+       DEFAULT COLLATE utf8_general_ci;
+mysql&gt; CREATE DATABASE agave_pu DEFAULT CHARACTER SET utf8
+       DEFAULT COLLATE utf8_general_ci;
+mysql&gt; grant all privileges on agave_pr.* to user identified by 'userpw';
+mysql&gt; grant all privileges on agave_pu.* to user identified by 'userpw';</pre>
+</div>
+</div>
+<div class="section" id="customising-settings">
+<h2>Customising settings<a class="headerlink" href="#customising-settings" title="Permalink to this headline">¶</a></h2>
+<p>Create a local_settings.py file inside the project directory
+(/path/to/agave/agave_prj).</p>
+<ul>
+<li><p class="first">Set your databases names, user and password, for instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">-</span> <span class="p">{</span>
+<span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;agave_pr&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.mysql&#39;</span><span class="p">,</span>
+    <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="s">&#39;user&#39;</span><span class="p">,</span>
+    <span class="s">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s">&#39;userpw&#39;</span>
+<span class="p">},</span>
+<span class="s">&#39;instances&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;agave_pu&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.mysql&#39;</span><span class="p">,</span>
+    <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="s">&#39;user&#39;</span><span class="p">,</span>
+    <span class="s">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s">&#39;userpw&#39;</span>
+<span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">(Optional) for <tt class="docutils literal"><span class="pre">zemanta_tags</span></tt> module, set:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ZEMANTA_KEY</span> <span class="o">-</span> <span class="s">&#39;yourapikey&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">(Optional) if you&#8217;re initialising app with an external database,
+set also the name, user and password, for instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SN_DBSERVER</span> <span class="o">-</span> <span class="s">&#39;localhost&#39;</span>
+<span class="n">SN_DBNAME</span> <span class="o">-</span> <span class="s">&#39;dbuser&#39;</span>
+<span class="n">SN_DBUSER</span> <span class="o">-</span> <span class="s">&#39;dbpw&#39;</span>
+<span class="n">SN_DBPW</span> <span class="o">-</span> <span class="s">&#39;extranet_fpgg&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">(Optional) In case you&#8217;re running a local MeSH-SKOS endpoint, set:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SPARQL_ENDPOINT_LOCAL</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="initialising-databases">
+<h2>Initialising databases<a class="headerlink" href="#initialising-databases" title="Permalink to this headline">¶</a></h2>
+<p>To create the initial schema, run:</p>
+<div class="highlight-python"><pre>(agaveenv)$ cd agave_prj/
+(agaveenv)$ python manage.py syncdb
+(agaveenv)$ python manage.py syncdb --database-instances</pre>
+</div>
+<p>Now you can  insert data using the REST API (see <a class="reference internal" href="api.html#ref-api"><em>Using AGAVE API</em></a>) or initialising the
+databases with the command line (see <a class="reference internal" href="usage.html#ref-usage"><em>Using AGAVE</em></a>).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installing AGAVE in Debian/Ubuntu</a><ul>
+<li><a class="reference internal" href="#installing-requirements">Installing requirements</a></li>
+<li><a class="reference internal" href="#installating-agave">Installating AGAVE</a></li>
+<li><a class="reference internal" href="#creating-the-databases">Creating the databases</a></li>
+<li><a class="reference internal" href="#customising-settings">Customising settings</a></li>
+<li><a class="reference internal" href="#initialising-databases">Initialising databases</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="requirements.html"
+                        title="previous chapter">AGAVE requirements</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="next chapter">Using AGAVE</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/install.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="usage.html" title="Using AGAVE"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="requirements.html" title="AGAVE requirements"
+             >previous</a> |</li>
+        <li><a href="index.html">AGAVE v0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010 DERI, National University of Ireland, Galway.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

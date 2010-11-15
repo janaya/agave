@@ -1,0 +1,15 @@
+--requirement=libs.txt
+django-piston==0.2.2
+docutils==0.7
+wsgiref==0.1.2
+#python-sparqlwrapper
+#networkx
+#numpy
+#matplotlib
+# cvs -d:pserver:anonymous@bioinforread.cvs.sourceforge.net:/cvsroot/bioinforread login 
+# cvs -z3 -d:pserver:anonymous@bioinforread.cvs.sourceforge.net:/cvsroot/bioinforread co -P 
+# svn checkout http://nltk.googlecode.com/svn/trunk/nltk_contrib/nltk_contrib/bioreader
+# http://code.google.com/p/nltk/source/browse/trunk/nltk_contrib/nltk_contrib/bioreader
+# hg clone http://bitbucket.org/jagan/bioreader
+#-e hg+http://bitbucket.org/jagan/bioreader/@de8a5f593b67#egg=bioreader
+

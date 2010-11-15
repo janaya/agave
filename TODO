@@ -1,0 +1,61 @@
+* all:
+ [X] add multi db support (for projects and instances)
+ [ ] it will have more sense to match the concepts from projects with authors in instances
+ [ ] when graph recalculation is done or should be done when updating the database?
+
+* tests:
+ [ ] create tests for all!
+
+* REST interface:
+ [X] add authentication
+ [X] add authentication for JSON graphs
+ [ ] check that deleting removes m2m and related tables
+ [ ] replace m2m urls?
+ [X] in Concept POST or PUT update Broaders (and query Neurocommons?)
+ [ ] add more documentation for API (the error codes and accepted JSON)
+
+* JS enhancements:
+ [ ] make graphs of same size
+ [ ] make bigger nodes position closer to the center
+ [ ] make edges stronger depending on weight
+ [ ] make nodes clickable and show the new nodes?
+ [ ] create slide and show less/more nodes depending on weight?
+
+* Functionality
+ [X] make better a-c
+ [X] make c-c only with the author concepts
+ [ ] parameter for number nodes?
+ [ ] 5 AA different or all in one?
+  * include aca?
+  * include CC?
+ [ ] button to save graph?
+
+* FPGG Integration
+ [X] graphs and json graphs need authentication?
+  [X] API key?, same password as FPGG?, Done with HTTP Basic Authentication
+
+* Evaluation: 
+ [X] different form or over the nodes?, in FPGG...
+ [ ] which questions?
+
+* Refactorize code!!
+ [] Decide app name and modules names
+ [] Decide which version to use (agave. without dataset, crel with datasets)
+ [] Create modules
+   [] module to import data from XML
+   [] module to extract broaders
+   [] module to generate graph images (currently named graphs)
+   [] module to generate statistics, metrics for the paper
+   [] module to import instances
+   [] module to visualize local graphs
+ [X] Decide license (BSD, LGPL permits use as library in propietary software, MIT is not viric but is GPL compatible, GPLv3 would be ideal but not permited)
+ [ ] eliminate redundant urls/views
+ [ ] document code
+ [ ] create pseudo CHANGELOG merging 3 repositories logs
+ 
+* Future:
+ [ ] Include/Change to manage all data in RDF?
+ [ ] Include/Change to manage all data in Neo4j?
+ [ ] Add support for rendering graphs with faces
+ [ ] Add support for clicking in a node and expanding the local graph
+
