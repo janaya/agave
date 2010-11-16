@@ -20,6 +20,7 @@ following the process explained in :ref:`ref-install`
     It can also be downloaded on `sourceforge`_ or as `NLTK contributions`_  
  * `SPARQLWrapper`_ 1.4.1+ for ``mesh_skos_broader`` module
  * `R`_ 2.12+ (optional) for ``agave_graph_analysis`` module
+ 
 ..  * `NetworkX`_ 1.1+
 ..  * `NumPy`_ 1.4+
 ..  * `matplotlib`_ 0.99+

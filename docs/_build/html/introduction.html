@@ -53,27 +53,87 @@
 <span id="ref-introduction"></span><h1>About AGAVE<a class="headerlink" href="#about-agave" title="Permalink to this headline">¶</a></h1>
 <p>AGAVE reads a dataset based on the tripartite model of tagging
 (<strong>Actors</strong>: users, authors, etc, <strong>Concepts</strong>: tags, keywords and <strong>Instances</strong>:
-publicatons, pictures, etc.), create broader/narrower relations between
-Concepts, generate graphs, analyse them and provides and interface
-to interactively visualise the graphs.</p>
-<p>AGAVE implements the research approach exposed in the paper
-<a class="reference external" href="http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf">Enrichment of affiliation networks and information discovery in SKOS-based datasets</a></p>
+publications, pictures, etc.), create broader/narrower relations between
+Concepts, generate graphs, analyze them and provides and interface
+to interactively visualize the graphs.</p>
 <dl class="docutils">
 <dt>AGAVE is composed by the following modules:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first simple">
 <li><tt class="docutils literal"><span class="pre">agave</span></tt>: main module that generate the graphs and plot the visualizations.
 It also contains the logic to convert Pubmed XML data or other database to the
 internal schema, generate the different graphs and to export them in csv or
-JSON format for further visualisation or analysis.</li>
+JSON format for further visualization or analysis. It contains:</li>
+</ul>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">pubmedxml2models</span></tt>: to import XML Pubmed publications dataset</li>
+<li><tt class="docutils literal"><span class="pre">fpggdb2models</span></tt>: to import projects from another database</li>
+<li><tt class="docutils literal"><span class="pre">graph_models_generator</span></tt>: to create the basic models from datasets</li>
+<li><tt class="docutils literal"><span class="pre">CCbx_models_generator</span></tt>: to query SPARQL endpoint to extract broaders relations</li>
+<li><tt class="docutils literal"><span class="pre">json_graph_generators</span></tt>: to generate JSON graphs data to visualize interactively</li>
+<li><tt class="docutils literal"><span class="pre">graphs_queries</span></tt>: to query the graphs</li>
+<li><tt class="docutils literal"><span class="pre">graphs_csv_generator</span></tt>: to generate the CSV files for use in <tt class="docutils literal"><span class="pre">agave_graph_analysis</span></tt> module</li>
+<li><tt class="docutils literal"><span class="pre">statistics_generator</span></tt>: to generate basic stadistics about the dataset and graphs</li>
+</ul>
+</blockquote>
+<ul class="last simple">
 <li><tt class="docutils literal"><span class="pre">agave_prj</span></tt>: umbrella module (a Django project).</li>
 <li><tt class="docutils literal"><span class="pre">zemanta_tags</span></tt>: module to extract concepts from Instances abstract using zemanta API.</li>
 <li><tt class="docutils literal"><span class="pre">mesh_skos_broader</span></tt>: module to extract broaders relations between Concepts from SPARQL endpoints.
-Currently it uses Neurocommons endpoint and Medical Subject Headings (MeSH),
-but can be easily adapted to other endpoints or other kind of Concepts.</li>
+Currently it uses Neurocommons Sparql endpoint and Medical Subject Headings (MeSH),
+but can be easily adapted to other LOD sources or other domains.</li>
 <li><tt class="docutils literal"><span class="pre">agave_graph_analysis</span></tt>: module to generate network analysis and static graph images</li>
 </ul>
 </dd>
 </dl>
+<div class="section" id="technologies">
+<h2>Technologies<a class="headerlink" href="#technologies" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<ul class="simple">
+<li>uses broader/narrower properties from <a class="reference external" href="http://www.w3.org/2004/02/skos/">SKOS</a> ontology to determine relations between concepts</li>
+<li>uses <a class="reference external" href="http://www.w3.org/TR/rdf-sparql-query/">SPARQL</a> to extract SKOS broader/narrower relations</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="publications">
+<h2>Publications<a class="headerlink" href="#publications" title="Permalink to this headline">¶</a></h2>
+<p>AGAVE implements the research approach exposed in <a class="reference external" href="http://www.inf.unibz.it/krdb/events/swap2010/paper-28.pdf">Enrichment of affiliation networks and information discovery in SKOS-based
+datasets</a></p>
+</div>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<p>To install AGAVE see <a class="reference internal" href="install.html#ref-install"><em>Installing AGAVE in Debian/Ubuntu</em></a></p>
+</div>
+<div class="section" id="download">
+<h2>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>You can download this project in either</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://github.com/janaya/agave/zipball/master">zip</a> or</li>
+<li><a class="reference external" href="http://github.com/janaya/agave/tarball/master">tar</a> formats.</li>
+</ul>
+</dd>
+<dt>You can also clone the project with <a class="reference external" href="http://git-scm.com">Git</a> by running::</dt>
+<dd>$ git clone git://github.com/janaya/agave</dd>
+</dl>
+</div>
+<div class="section" id="bugs-and-features">
+<h2>Bugs and features<a class="headerlink" href="#bugs-and-features" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to signal a bug or report a feature request, please fill-in an issue on the <a class="reference external" href="https://github.com/janaya/agave/issues">AGAVE issue tracker</a></p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>AGAVE is copyright 2010 by <a class="reference external" href="&lt;http://deri.ie/">DERI</a>, <a class="reference external" href="http://nuigalway.ie/">National University of Ireland, Galway</a>
+and is covered by the <a class="reference external" href="http://www.opensource.org/licenses/bsd-license.php">New BSD license</a></p>
+</div>
+<div class="section" id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Permalink to this headline">¶</a></h2>
+<p>(julia.anaya at gmail dot com)</p>
+</div>
+<div class="section" id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h2>
+<p>AGAVE has been supported by Science Foundation Ireland under grant number SFI/08/CE/I1380 (Líon 2) and <a class="reference external" href="http://research.hypios.com/">Hypios Research, Paris</a> .</p>
+</div>
 </div>
 
 
@@ -82,6 +142,21 @@ but can be easily adapted to other endpoints or other kind of Concepts.</li>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">About AGAVE</a><ul>
+<li><a class="reference internal" href="#technologies">Technologies</a></li>
+<li><a class="reference internal" href="#publications">Publications</a></li>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#download">Download</a></li>
+<li><a class="reference internal" href="#bugs-and-features">Bugs and features</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+<li><a class="reference internal" href="#contact">Contact</a></li>
+<li><a class="reference internal" href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Welcome to Agave&#8217;s documentation!</a></p>

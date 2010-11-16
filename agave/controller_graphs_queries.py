@@ -28,6 +28,7 @@ from agave.models import ActorConcept, AAp, AAc
 from django.conf import settings
 from django.db import connections
 from django.db.models import Count
+from agave.models import Actor, Concept
 
 def get_Aweight_list_from_C(c, db='default', number_nodes=40):
     """

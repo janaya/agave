@@ -51,8 +51,8 @@
             
   <div class="section" id="installing-agave-in-debian-ubuntu">
 <span id="ref-install"></span><h1>Installing AGAVE in Debian/Ubuntu<a class="headerlink" href="#installing-agave-in-debian-ubuntu" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="installing-requirements">
-<h2>Installing requirements<a class="headerlink" href="#installing-requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-requirements">
+<h2>Install requirements<a class="headerlink" href="#install-requirements" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p class="first">Installing basic requirements (Python and MySQL)</p>
 <p>In Debian Unstable:</p>
@@ -102,13 +102,30 @@ Pin-Priority: 600</pre>
 $ sudo pip install virtualenv</pre>
 </div>
 </li>
+<li><p class="first">(Optional) Installing R packages (for <tt class="docutils literal"><span class="pre">agave_graph_analysis</span></tt> module):</p>
+<div class="highlight-python"><pre>$ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix
+  r-recommended r-base-core r-base-html r-cran-boot r-cran-class
+  r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth
+  r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme
+  r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess</pre>
+</div>
+</li>
 </ol>
+<blockquote>
+<p>Then install remaining R packages from R shell:</p>
+<div class="highlight-python"><pre>$ R
+&gt; install.packages("sqldf")
+&gt; install.packages("igraph")
+    &gt; install.packages("ppls")
+    &gt; install.packages("gplots")</pre>
+</div>
+</blockquote>
 <ol class="arabic simple">
-<li>(Optional) To setup you our local Sesame repositore (see <a class="reference internal" href="installsesame.html#ref-installsesame"><em>Installing a local mesh-skos repository with Sesame in Debian/Ubuntu</em></a>)</li>
+<li>(Optional) To setup you our local Sesame repository (see <a class="reference internal" href="installsesame.html#ref-installsesame"><em>Installing a local mesh-skos repository with Sesame in Debian/Ubuntu</em></a>)</li>
 </ol>
 </div>
-<div class="section" id="installating-agave">
-<h2>Installating AGAVE<a class="headerlink" href="#installating-agave" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installing-agave">
+<h2>Installing AGAVE<a class="headerlink" href="#installing-agave" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p class="first">Download the application:</p>
 <div class="highlight-python"><pre>$ git clone git://github.com/janaya/agave</pre>
@@ -123,7 +140,7 @@ $ sudo pip install virtualenv</pre>
 (agaveenv)$ pip install -E agaveenv -r agave/requirements/external_apps.txt</pre>
 </div>
 </li>
-<li><p class="first">(Optional) Download bioreader (for module pubmedxml2models) inside agave_prj or inside
+<li><p class="first">(Optional) Download bioreader (only needed for <tt class="docutils literal"><span class="pre">pubmedxml2models</span></tt>) inside agave_prj or inside
 /path/to/agaveenv/lib/python2.6/site-packages:</p>
 <div class="highlight-python"><pre>$ cd /path/to/agaveenv/lib/python2.6/site-packages/
 $ hg clone http://bitbucket.org/jagan/bioreader</pre>
@@ -133,7 +150,7 @@ $ hg clone http://bitbucket.org/jagan/bioreader</pre>
 </div>
 <div class="section" id="creating-the-databases">
 <h2>Creating the databases<a class="headerlink" href="#creating-the-databases" title="Permalink to this headline">¶</a></h2>
-<p>Currently Agave is designed to work with two databases, one for storing
+<p>Currently AGAVE is designed to work with two databases, one for storing
 publications and one for storing projects. The second database is optional.
 To create both:</p>
 <div class="highlight-python"><pre>$ mysql
@@ -145,8 +162,8 @@ mysql&gt; grant all privileges on agave_pr.* to user identified by 'userpw';
 mysql&gt; grant all privileges on agave_pu.* to user identified by 'userpw';</pre>
 </div>
 </div>
-<div class="section" id="customising-settings">
-<h2>Customising settings<a class="headerlink" href="#customising-settings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="customizing-settings">
+<h2>Customizing settings<a class="headerlink" href="#customizing-settings" title="Permalink to this headline">¶</a></h2>
 <p>Create a local_settings.py file inside the project directory
 (/path/to/agave/agave_prj).</p>
 <ul>
@@ -173,7 +190,7 @@ mysql&gt; grant all privileges on agave_pu.* to user identified by 'userpw';</pr
 </pre></div>
 </div>
 </li>
-<li><p class="first">(Optional) if you&#8217;re initialising app with an external database,
+<li><p class="first">(Optional) if you&#8217;re initializing app with an external database,
 set also the name, user and password, for instance:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">SN_DBSERVER</span> <span class="o">-</span> <span class="s">&#39;localhost&#39;</span>
 <span class="n">SN_DBNAME</span> <span class="o">-</span> <span class="s">&#39;dbuser&#39;</span>
@@ -182,21 +199,21 @@ set also the name, user and password, for instance:</p>
 </pre></div>
 </div>
 </li>
-<li><p class="first">(Optional) In case you&#8217;re running a local MeSH-SKOS endpoint, set:</p>
+<li><p class="first">(Optional) In case you&#8217;re running a local MeSH-SKOS repository  (see <a class="reference internal" href="installsesame.html#ref-installsesame"><em>Installing a local mesh-skos repository with Sesame in Debian/Ubuntu</em></a>), set:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">SPARQL_ENDPOINT_LOCAL</span> <span class="o">=</span> <span class="bp">True</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
-<div class="section" id="initialising-databases">
-<h2>Initialising databases<a class="headerlink" href="#initialising-databases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-databases">
+<h2>Initializing databases<a class="headerlink" href="#initializing-databases" title="Permalink to this headline">¶</a></h2>
 <p>To create the initial schema, run:</p>
 <div class="highlight-python"><pre>(agaveenv)$ cd agave_prj/
 (agaveenv)$ python manage.py syncdb
 (agaveenv)$ python manage.py syncdb --database-instances</pre>
 </div>
-<p>Now you can  insert data using the REST API (see <a class="reference internal" href="api.html#ref-api"><em>Using AGAVE API</em></a>) or initialising the
+<p>Now you can  insert data using the REST API (see <a class="reference internal" href="api.html#ref-api"><em>Using AGAVE API</em></a>) or initializing the
 databases with the command line (see <a class="reference internal" href="usage.html#ref-usage"><em>Using AGAVE</em></a>).</p>
 </div>
 </div>
@@ -210,11 +227,11 @@ databases with the command line (see <a class="reference internal" href="usage.h
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Installing AGAVE in Debian/Ubuntu</a><ul>
-<li><a class="reference internal" href="#installing-requirements">Installing requirements</a></li>
-<li><a class="reference internal" href="#installating-agave">Installating AGAVE</a></li>
+<li><a class="reference internal" href="#install-requirements">Install requirements</a></li>
+<li><a class="reference internal" href="#installing-agave">Installing AGAVE</a></li>
 <li><a class="reference internal" href="#creating-the-databases">Creating the databases</a></li>
-<li><a class="reference internal" href="#customising-settings">Customising settings</a></li>
-<li><a class="reference internal" href="#initialising-databases">Initialising databases</a></li>
+<li><a class="reference internal" href="#customizing-settings">Customizing settings</a></li>
+<li><a class="reference internal" href="#initializing-databases">Initializing databases</a></li>
 </ul>
 </li>
 </ul>

@@ -4,10 +4,6 @@
 Using AGAVE API
 ===============
 
-Basic url is http://localhost:8000/ 
-
-Or in case of running it from a web server: http://domain.com/
-
 In the following:
 - Actors: are users or authors
 - Instances: are instances or projects

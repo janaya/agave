@@ -4,7 +4,7 @@
 Using AGAVE
 =================
 
-Initialising publications from a dump of Pubmed XML publications
+Initializing publications from a dump of Pubmed XML publications
 ====================================================================
 
 You can load this dataset and generate the broader patterns relations between
@@ -27,7 +27,7 @@ Or step by step:
 	(agaveenv)$ python manage.py generate_AAbx_models
 
 
-Initialising projects from an external database
+Initializing projects from an external database
 ====================================================================
 
 You can also load the dataset and generate the broader patterns relations in
@@ -97,16 +97,16 @@ Once the model and graphs have been generated
 Generating global graph analysis
 ========================================
 
-.. * Generate graphs csv::
+ * Generate graphs csv::
 
-.. 	(agaveenv)$ python manage.py generate_graphs_csv
+ 	(agaveenv)$ python manage.py generate_graphs_csv
 
-..    This will generate .csv files inside output_csv
+   This will generate .csv files inside output_csv directory
 
-..  * Generate global graphs image::
+ * Generate global graphs image::
 
-..     agave_graph_analysis$ R
-..     > source('data-explore.R')
+    agave_graph_analysis$ R
+    > source('x-generate-AAc_CCa_AAb_CCb.R')
 
-..    The graph images should be in output_plots
+  This will generate .eps files inside output_plots directory
 

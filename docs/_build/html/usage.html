@@ -51,8 +51,8 @@
             
   <div class="section" id="using-agave">
 <span id="ref-usage"></span><h1>Using AGAVE<a class="headerlink" href="#using-agave" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="initialising-publications-from-a-dump-of-pubmed-xml-publications">
-<h2>Initialising publications from a dump of Pubmed XML publications<a class="headerlink" href="#initialising-publications-from-a-dump-of-pubmed-xml-publications" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-publications-from-a-dump-of-pubmed-xml-publications">
+<h2>Initializing publications from a dump of Pubmed XML publications<a class="headerlink" href="#initializing-publications-from-a-dump-of-pubmed-xml-publications" title="Permalink to this headline">¶</a></h2>
 <p>You can load this dataset and generate the broader patterns relations between
 concepts and actor with one command:</p>
 <div class="highlight-python"><pre>(agaveenv)$ python manage.py initialize_publications</pre>
@@ -73,8 +73,8 @@ concepts and actor with one command:</p>
 </li>
 </ol>
 </div>
-<div class="section" id="initialising-projects-from-an-external-database">
-<h2>Initialising projects from an external database<a class="headerlink" href="#initialising-projects-from-an-external-database" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-projects-from-an-external-database">
+<h2>Initializing projects from an external database<a class="headerlink" href="#initializing-projects-from-an-external-database" title="Permalink to this headline">¶</a></h2>
 <p>You can also load the dataset and generate the broader patterns relations in
 one command or do it step by step.
 With one command:</p>
@@ -142,6 +142,22 @@ basic authentication for the REST API:</p>
 </div>
 <div class="section" id="generating-global-graph-analysis">
 <h2>Generating global graph analysis<a class="headerlink" href="#generating-global-graph-analysis" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<ul>
+<li><p class="first">Generate graphs csv:</p>
+<div class="highlight-python"><pre>(agaveenv)$ python manage.py generate_graphs_csv</pre>
+</div>
+<p>This will generate .csv files inside output_csv directory</p>
+</li>
+<li><p class="first">Generate global graphs image:</p>
+<div class="highlight-python"><pre>agave_graph_analysis$ R
+&gt; source('x-generate-AAc_CCa_AAb_CCb.R')</pre>
+</div>
+</li>
+</ul>
+<blockquote>
+This will generate .eps files inside output_plots directory</blockquote>
+</blockquote>
 </div>
 </div>
 
@@ -154,8 +170,8 @@ basic authentication for the REST API:</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Using AGAVE</a><ul>
-<li><a class="reference internal" href="#initialising-publications-from-a-dump-of-pubmed-xml-publications">Initialising publications from a dump of Pubmed XML publications</a></li>
-<li><a class="reference internal" href="#initialising-projects-from-an-external-database">Initialising projects from an external database</a></li>
+<li><a class="reference internal" href="#initializing-publications-from-a-dump-of-pubmed-xml-publications">Initializing publications from a dump of Pubmed XML publications</a></li>
+<li><a class="reference internal" href="#initializing-projects-from-an-external-database">Initializing projects from an external database</a></li>
 <li><a class="reference internal" href="#running-agave-web-application">Running AGAVE Web application</a><ul>
 <li><a class="reference internal" href="#run-the-development-application">Run the development application</a></li>
 <li><a class="reference internal" href="#optional-configure-your-apache-web-server">(Optional) Configure your Apache web server</a></li>
