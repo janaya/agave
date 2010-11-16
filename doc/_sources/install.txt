@@ -4,7 +4,7 @@
 Installing AGAVE in Debian/Ubuntu
 =================================
 
-Installing requirements
+Install requirements
 =================================
 
 #. Installing basic requirements (Python and MySQL)
@@ -54,7 +54,7 @@ Installing requirements
     $ sudo easy_install pip
     $ sudo pip install virtualenv
   
-#. (Optional) Installing R packages (for ``agave_graph_analysis module``)::
+#. (Optional) Installing R packages (for ``agave_graph_analysis`` module)::
    
     $ sudo aptitude install r-base r-base-dev r-cran-lattice r-cran-matrix 
       r-recommended r-base-core r-base-html r-cran-boot r-cran-class 
@@ -62,7 +62,7 @@ Installing requirements
       r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme 
       r-cran-nnet r-cran-rpart  r-cran-spatial r-cran-survival r-doc-html ess
 
-   Then install R packages from R shell::
+  Then install remaining R packages from R shell::
 
     $ R
     > install.packages("sqldf")
@@ -70,9 +70,9 @@ Installing requirements
 	> install.packages("ppls")
 	> install.packages("gplots")
 
-#. (Optional) To setup you our local Sesame repositories (see :ref:`ref-installsesame`)
+#. (Optional) To setup you our local Sesame repository (see :ref:`ref-installsesame`)
 
-Installating AGAVE
+Installing AGAVE
 ====================
 
 #. Download the application::
@@ -88,7 +88,7 @@ Installating AGAVE
     $ source /path/to/agaveenv/bin/activate
     (agaveenv)$ pip install -E agaveenv -r agave/requirements/external_apps.txt
 
-#. (Optional) Download bioreader (for module pubmedxml2models) inside agave_prj or inside 
+#. (Optional) Download bioreader (only needed for ``pubmedxml2models``) inside agave_prj or inside 
    /path/to/agaveenv/lib/python2.6/site-packages::
 
 	$ cd /path/to/agaveenv/lib/python2.6/site-packages/
@@ -97,7 +97,7 @@ Installating AGAVE
 Creating the databases
 =================================
 
-Currently Agave is designed to work with two databases, one for storing 
+Currently AGAVE is designed to work with two databases, one for storing 
 publications and one for storing projects. The second database is optional. 
 To create both::
 
@@ -109,7 +109,7 @@ To create both::
      mysql> grant all privileges on agave_pr.* to user identified by 'userpw';
      mysql> grant all privileges on agave_pu.* to user identified by 'userpw';
        
-Customising settings
+Customizing settings
 =================================
 
 Create a local_settings.py file inside the project directory
@@ -136,7 +136,7 @@ Create a local_settings.py file inside the project directory
     
 	ZEMANTA_KEY - 'yourapikey'
     
-* (Optional) if you're initialising app with an external database, 
+* (Optional) if you're initializing app with an external database, 
   set also the name, user and password, for instance::
     
     SN_DBSERVER - 'localhost'
@@ -144,11 +144,11 @@ Create a local_settings.py file inside the project directory
     SN_DBUSER - 'dbpw'
     SN_DBPW - 'extranet_fpgg'
     
-* (Optional) In case you're running a local MeSH-SKOS endpoint, set::
+* (Optional) In case you're running a local MeSH-SKOS repository  (see :ref:`ref-installsesame`), set::
  
  	SPARQL_ENDPOINT_LOCAL = True
 
-Initialising databases
+Initializing databases
 =================================
 
 To create the initial schema, run::
@@ -157,6 +157,6 @@ To create the initial schema, run::
     (agaveenv)$ python manage.py syncdb
     (agaveenv)$ python manage.py syncdb --database-instances
 
-Now you can  insert data using the REST API (see :ref:`ref-api`) or initialising the 
+Now you can  insert data using the REST API (see :ref:`ref-api`) or initializing the 
 databases with the command line (see :ref:`ref-usage`).
 
