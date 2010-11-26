@@ -20,8 +20,8 @@
 # Description
 #
 # TODO:
-
-from agave.all import nonejson
+from agave.models import Actor, Concept, Instance, InstanceActor, \
+    InstanceConcept
 from agave.controller_js_graph_generators import *
 from agave.controller_CCbx_models_generator import create_CCbx_from_C, \
     delete_CCbx_from_I, delete_CCbx_from_C

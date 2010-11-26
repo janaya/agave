@@ -1,0 +1,33 @@
+{% load i18n %}
+<html>
+<head>
+<!--<script type="text/javascript" src="/site_media/js/protovis-3.2/protovis-r3.2.js"></script>-->
+<script type="text/javascript" src="/site_media/js/protovis-3.2/protovis-d3.2.js"></script>
+<script type="text/javascript" src="/site_media/js/jquery-1.4.3/jquery-1.4.3.js"></script>
+<!--<script type="text/javascript" src="/site_media/js/jquery.svg.1.4.3/jquery.svg.js"></script>
+<script type="text/javascript" src="/site_media/js/jquery.svg.1.4.3/jquery.svgdom.js"></script>-->
+<!--<script type="text/javascript" src="{{jsonurl}}"></script>-->
+<script type="text/javascript" src="/site_media/js/graph.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+
+	$(document).ready( 
+		function() {
+			$.getJSON("{{jsonurl}}",
+					  function(data) {
+						//window.jsondata = data;
+						//window.jsondata = JSON.parse(data);
+		  				//render_graph();
+						generate_graph(data);
+						//alert('esto se ha fixeado automagically :p');
+					  });
+		  //window.e = e;
+		}
+	);
+</script>
+    <div id="svgroot">
+    </div>
+</body>
+</html>

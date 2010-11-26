@@ -1,0 +1,61 @@
+{% load i18n %}
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <!--<link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/autocomplete/demo/main.css" type="text/css" />-->
+  <link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.css" type="text/css" />
+  <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.bgiframe.min.js"></script>
+  <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.dimensions.js"></script>
+  <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="/site_media/js/search_functions.js"></script>
+<script type="text/javascript">
+
+var url_ac = "{% url ac_concept %}";
+var url_abc = "{% url aab_concept %}";
+var url_anc = "{% url aan_concept %}";
+var url_abc_image = "{% url actors_broaders_concept_image %}";
+var autocomplete_names = "{% url autocomplete_names %}";
+var autocomplete_mds = "{% url autocomplete_mds %}";
+
+function processSearch(e){
+  e.preventDefault();
+  
+  data = {"q": $("#id_word").val() }
+  
+  $.getJSON(url_ac, data, function (retdata) {ac(retdata);});
+  $.getJSON(url_abc, data, function (retdata) {abc(retdata);});
+  $.getJSON(url_anc, data, function (retdata) {anc(retdata);});
+  $.getJSON(url_abc_image, data, function (retdata) {abc_image(retdata);});
+
+};
+
+$(document).ready( function() {
+    $("#id_word").autocomplete(
+     autocomplete_names
+     );
+
+    jQuery("form#search").submit(function(e){
+      processSearch(e);
+    });
+
+
+});
+
+</script>
+
+
+{% block head_title %}{% blocktrans %}FPGG + SKOS{% endblocktrans %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans "FPGG + SKOS" %}</h1>
+    <form id="search" action="{% url search %}"  method="post">
+        <div id="search_errors"></div>
+        {{ form.as_p}}
+        <input type="submit" id="submit_search" value="Submit" />
+    </form>
+    
+    {{md}}
+    <div class="actors_broaders_concept_image"></div>
+    <div class="actors_concept"></div>
+    <div class="actors_broaders_concept"></div>
+    <div class="actors_narrowers_concept"></div>
+{% endblock %}
