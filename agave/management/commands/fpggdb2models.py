@@ -21,7 +21,7 @@
 #
 # TODO:
 
-from agave.controller_pubmedxml2models import generate_models
+from agave.controller_fpggdb2models import fpggdb2models
 from django.core.management.base import BaseCommand
 
 
@@ -30,5 +30,5 @@ class Command(BaseCommand):
 #    help = 'Closes the specified poll for voting'
 
     def handle(self, *args, **options):
-        generate_models()
+        fpggdb2models()
         print('Successfully initialized\n')
