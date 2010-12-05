@@ -72,6 +72,59 @@ def fpggdb2models():
                 a, created = Actor.objects.using(db).get_or_create(id=i, name=f + ' ' + l)
     #            print "actor %s created" % actor[1]
 
+
+
+def fpggdbpublications2models():
+    db = 'publications'
+
+    con = MySQLdb.connect(SN_DBSERVER, SN_DBUSER, SN_DBPW, SN_DBNAME, use_unicode=True, charset='utf8')
+    c = con.cursor()
+
+    #extract project
+    c.execute("""SELECT id,title,date FROM fpgg_publication""")
+    projects = c.fetchall()
+    t = a = ""
+
+    for project in projects:
+        i, t, a = project
+        #p, created = Instance.objects.using(db).get_or_create(id=i, title=t.encode("utf-8"), abstract=a.encode("utf-8"))
+        p, created = Instance.objects.using(db).get_or_create(id=i, title=t, year=a.year)
+
+
+        # extract concepts
+#        if p.abstract:
+#            concepts = extract_concepts(p.abstract)
+#            create_CI_from_I(p, concepts, db)
+        c.execute("""select fpgg_tag_id from fpgg_publication_tag where fpgg_publication_id = %s""", i)
+        concept_ids = c.fetchall()
+        for concept_id in concept_ids:
+            c.execute("""select name from fpgg_tag where id = %s""", concept_id)
+            concept_name = c.fetch_row()
+            concept, created = Concept.objects.using(db).\
+                get_or_create(id=concept_id, name=concept_name)
+            if created: logging.debug("Created C: " + concept.__unicode__())
+            weight = 1
+            pconcept, created = InstanceConcept.objects.using(db).\
+                get_or_create(instance=p, concept=concept, weight=weight)
+            if created: 
+                    logging.debug("Created CI: %s" % pconcept)
+    
+        generate_CCp(p, db)
+
+        #extract actors
+        c.execute("""select id, fpgg_user_id, fpgg_publication_id from fpgg_user_publication where fpgg_publication_id=%s""", i)
+        projectactors = c.fetchall()
+        if projectactors:
+            weight = 1.0 / len(projectactors)
+            f = l = ""
+            for projectactor in projectactors:
+                c.execute("""select id,first_name,last_name from fpgg_user where id=%s""", projectactor[1])
+                actor = c.fetchone()
+                i, f, l = actor
+#                a, created = Actor.objects.using(db).get_or_create(id=i, name=f.encode("utf-8") + ' ' + l.encode("utf-8"))
+                a, created = Actor.objects.using(db).get_or_create(id=i, name=f + ' ' + l)
+    #            print "actor %s created" % actor[1]
+
                 pa, created = InstanceActor.objects.using(db).get_or_create(id=projectactor[0], actor=a, instance=p, weight=weight)
 
                 create_AAp_from_I_A(a, p, db)
