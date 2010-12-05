@@ -22,7 +22,7 @@
 # TODO:
 from agave.models import Actor, Concept, Instance, InstanceActor, \
     InstanceConcept
-from agave.controller_js_graph_generators import *
+from agave.controller_json_graph_generators import *
 from agave.controller_CCbx_models_generator import create_CCbx_from_C, \
     delete_CCbx_from_I, delete_CCbx_from_C
 from agave.controller_graph_models_generator import create_CI_from_I, \
@@ -919,7 +919,10 @@ class GraphsJsonHandler(BaseHandler):
             instance = Actor.objects.get(id=actor_id)
         except ObjectDoesNotExist:
             # or return error?
-            content = nonejson()
+            #content = nonejson()            
+            resp = rc.NOT_FOUND
+            logging.debug(resp)
+            return resp
             #return Http404
             #return django.views.defaults.page_not_found()
         else:
@@ -927,6 +930,9 @@ class GraphsJsonHandler(BaseHandler):
                 if graphsubtype == 'c':
                     content = get_AAc_weight_json_from_A(instance, db)
                 elif graphsubtype == 'p':
+                    print "graph subtype p"
+                    print instance
+                    print db
                     content = get_AAp_weight_json_from_As(instance, db)
                 elif graphsubtype == 'b':
                     content = get_AAb_weight_json_from_A(instance, db)
@@ -985,7 +991,10 @@ class GraphsJsonCHandler(BaseHandler):
             instance = Instance.objects.get(id=concept_id)
         except ObjectDoesNotExist:
             # or return error?
-            content = nonejson()
+            #content = nonejson()          
+            resp = rc.NOT_FOUND
+            logging.debug(resp)
+            return resp
             #return Http404
             #return django.views.defaults.page_not_found()
         else:

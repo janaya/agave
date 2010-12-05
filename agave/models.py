@@ -23,40 +23,6 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-#from exceptions import TypeError
-#import glob
-#import logging
-#import os.path
-#try:
-#    from itertools import combinations
-#except ImportError:
-##    from utils import combinations
-#    print "python 2.6 is required"
-#try:
-#    import networkx as nx
-#    from networkx.exception import NetworkXError
-#except ImportError:
-#    print "networkx must be installed"
-#try:
-#    from matplotlib import pyplot as plt
-#except ImportError:
-#    print "matplotlib must be installed"
-#try:
-#    import pylab as P
-#except ImportError:
-#    print "pylab must be installed"
-#import pickle
-
-#try:
-#    from bioreader import *
-#except ImportError:
-#    print "bioreader must be installed"
-
-#from fpggsna.models import *
-#from crel.models import *
-#_mysql_exceptions.IntegrityError
-#from pysqlite2.dbapi2 import IntegrityError
-
 ##############################################################################
 # BASIC MODELS
 ##############################################################################
@@ -96,7 +62,7 @@ class InstanceActor(models.Model):
     weight = models.FloatField(null=True)
 
     def __unicode__(self):
-        return "(" + self.instance.__unicode__() + ", " + self.actor.__unicode__() + ", " + str(self.weight) + ")"
+        return "(" + self.instance.title + ", " + self.actor._ma,e + ", " + str(self.weight) + ")"
 
 class InstanceConcept(models.Model):
     instance = models.ForeignKey(Instance)
@@ -104,7 +70,7 @@ class InstanceConcept(models.Model):
     weight = models.PositiveIntegerField(null=True)
 
     def __unicode__(self):
-        return self.instance.__unicode__() + ", " + self.concept.__unicode__() + ", " + str(self.weight)
+        return "%s, %s, %s" % (self.instance.title, self.concept.name, self.weight)
 
 class Actor(models.Model):
 #    name = models.CharField(_('actor name'), max_length=255, unique=True)
@@ -165,7 +131,7 @@ class ActorConcept(models.Model):
 #    dataset = models.ForeignKey('PubmedXMLDataset')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.actor, self.concept, self.weight)
+        return u"%s, %s, %s" % (self.actor.name, self.concept.name, self.weight)
 
 ##############################################################################
 # CONCEPTS GRAPHS
@@ -179,7 +145,7 @@ class CCp(models.Model):
     instance = models.ForeignKey(Instance, related_name='CCp_Instance')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.concept_from, self.instance, self.concept_to)
+        return u"%s, %s, %s" % (self.concept_from.name, self.instance.title, self.concept_to.name)
 
 class CCa(models.Model):
     concept_from = models.ForeignKey(Concept, related_name='CCa_from')
@@ -189,7 +155,7 @@ class CCa(models.Model):
     actor = models.ForeignKey(Actor, related_name='CCa_actor')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.concept_from, self.actor, self.concept_to)
+        return u"%s, %s, %s" % (self.concept_from.name, self.actor.name, self.concept_to.name)
 
 #class CCpt(models.Model):
 #    concept_from = models.ForeignKey(Concept, related_name='CCp_from')
@@ -228,7 +194,7 @@ class CCb(models.Model):
 #        return self.concept_to.actors.filter(datasets = pxds)
 
     def __unicode__(self):
-        return u"%s, %s" % (self.concept_from, self.concept_to)
+        return u"%s, %s" % (self.concept_from.name, self.concept_to.name)
 
 class CCbb(models.Model):
     concept_from = models.ForeignKey(Concept, related_name='CCbb_from')
@@ -236,8 +202,8 @@ class CCbb(models.Model):
     concept_to = models.ForeignKey(Concept, related_name='CCbb_to')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.concept_from, self.concept_parent,
-                                self.concept_to)
+        return u"%s, %s, %s" % (self.concept_from.name, self.concept_parent.name,
+                                self.concept_to.name)
 
 class CCbc(models.Model):
     concept_from = models.ForeignKey(Concept, related_name='CCbc_from')
@@ -245,15 +211,15 @@ class CCbc(models.Model):
     concept_to = models.ForeignKey(Concept, related_name='CCbc_to')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.concept_from, self.concept_child,
-                                self.concept_to)
+        return u"%s, %s, %s" % (self.concept_from.name, self.concept_child.name,
+                                self.concept_to.name)
 
 class CCball(models.Model):
     concept_from = models.ForeignKey(Concept, related_name='CCball_from')
     concept_to = models.ForeignKey(Concept, related_name='CCball_to')
 
     def __unicode__(self):
-        return u"%s, %s" % (self.concept_from, self.concept_to)
+        return u"%s, %s" % (self.concept_from.name, self.concept_to.name)
 
 ##############################################################################
 # ACTORS GRAPHS
@@ -265,8 +231,8 @@ class AAp(models.Model):
     instance = models.ForeignKey(Instance, related_name='AA_instance')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.actor_from, self.instance,
-                                self.actor_to)
+        return u"%s, %s, %s" % (self.actor_from.name, self.instance.title,
+                                self.actor_to.name)
 
 class AAc(models.Model):
     actor_from = models.ForeignKey(Actor, related_name='AAc_from')
@@ -276,8 +242,8 @@ class AAc(models.Model):
     concept = models.ForeignKey(Concept, related_name='AAc_concept')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.actor_from, self.concept,
-                                self.actor_to)
+        return u"%s, %s, %s" % (self.actor_from.name, self.concept.name,
+                                self.actor_to.name)
 
 ##############################################################################
 # ACTORS GRAPHS WITH BROADERS PATTERNS
@@ -291,7 +257,7 @@ class AAba(models.Model):
     ccba = models.ForeignKey(CCb, related_name='AAba_CCba')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.actor_from, self.ccba, self.actor_to)
+        return u"%s, %s, %s" % (self.actor_from.name, self.ccba.__unicode__(), self.actor_to.name)
 
 
 class AAbb(models.Model):
@@ -302,7 +268,7 @@ class AAbb(models.Model):
     ccbb = models.ForeignKey(CCbb, related_name='AAbb_CCbb')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.actor_from, self.actor_to, self.ccbb)
+        return u"%s, %s, %s" % (self.actor_from.name, self.actor_to.name, self.ccbb.__unicode__())
 
 class AAbc(models.Model):
     actor_from = models.ForeignKey(Actor, related_name='AAbc_from')
@@ -312,7 +278,7 @@ class AAbc(models.Model):
     ccbc = models.ForeignKey(CCbc, related_name='AAbc_CCbc')
 
     def __unicode__(self):
-        return u"%s, %s, %s" % (self.actor_from, self.ccbc, self.actor_to)
+        return u"%s, %s, %s" % (self.actor_from.name, self.ccbc.__unicode__(), self.actor_to.name)
 
 class AAbabc(models.Model):
     actor_from = models.ForeignKey(Actor, related_name='AAbabc_from')

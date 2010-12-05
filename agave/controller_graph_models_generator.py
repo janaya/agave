@@ -20,7 +20,7 @@
 # Description
 #
 # TODO:
-
+import logging
 from agave.models import *
 try:
     from itertools import combinations
@@ -36,10 +36,12 @@ def create_CI_from_I(p, concepts, db='default'):
         weight = 1
         for concept in concepts:
             concept, created = Concept.objects.using(db).get_or_create(name=concept)
-            if created: logging.debug("Created C: " + concept)
+            if created: logging.debug("Created C: " + concept.__unicode__())
 
-            pconcept, created = InstanceConcept.objects.using(db).get_or_create(instance=p, concept=concept, weight=weight)
-            if created: logging.debug("Created CI: " + pconcept.__unicode__())
+            pconcept, created = InstanceConcept.objects.using(db).\
+                get_or_create(instance=p, concept=concept, weight=weight)
+            if created: 
+                    logging.debug("Created CI: %s" % pconcept)
 
 def delete_CI_from_I(p, db='default'):
 #    [pc.delete() for pc in p.instanceconcept_set.using(db).all()]
@@ -94,7 +96,7 @@ def create_CCp_from_I(c, p, db='default'):
             ccp, created = CCp.objects.using(db).get_or_create(concept_from=c,
                                                      concept_to=c_to,
                                                      instance=p)
-            if created: logging.debug("Created CCp: " + ccp.__unicode__())
+            if created: logging.debug(u"Created CCp:  %s" % ccp)
             else: logging.debug("Exists CCp: " + ccp.__unicode__())
 
 def generate_CCp(p, db='default'):
@@ -105,7 +107,7 @@ def generate_CCp(p, db='default'):
         ccp, created = CCp.objects.using(db).get_or_create(concept_from=cc[0],
                                                           concept_to=cc[1],
                                                           instance=p)
-        if created: logging.debug("Created CCp: " + ccp.__unicode__())
+        if created: logging.debug(u"Created CCp: %s" % ccp)
         else: logging.debug("Exists CCp: " + ccp.__unicode__())
 
 

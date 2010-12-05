@@ -25,7 +25,7 @@ function generate_graph(jsondata){
 //	var w = 700,
 //	    h = 700,
 //	    colors = pv.Colors.category19();
-	alert("en generate_graph");
+	//alert("en generate_graph");
 	var vis = new pv.Panel()
 		.width(window.innerWidth)
 	    .height(window.innerHeight)	

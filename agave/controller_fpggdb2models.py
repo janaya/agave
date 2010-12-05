@@ -37,8 +37,8 @@ SN_DBNAME = settings.SN_DBNAME
 def fpggdb2models():
     db = 'default'
 
-    db = MySQLdb.connect(SN_DBSERVER, SN_DBUSER, SN_DBPW, SN_DBNAME, use_unicode=True, charset='utf8')
-    c = db.cursor()
+    con = MySQLdb.connect(SN_DBSERVER, SN_DBUSER, SN_DBPW, SN_DBNAME, use_unicode=True, charset='utf8')
+    c = con.cursor()
 
     #extract project
     c.execute("""SELECT id,name,abstract FROM fpgg_project""")
@@ -47,9 +47,8 @@ def fpggdb2models():
 
     for project in projects:
         i, t, a = project
-        print t
-        print a
-        p, created = Instance.objects.get_or_create(id=i, title=t.encode("utf-8"), abstract=a.encode("utf-8"))
+        #p, created = Instance.objects.using(db).get_or_create(id=i, title=t.encode("utf-8"), abstract=a.encode("utf-8"))
+        p, created = Instance.objects.using(db).get_or_create(id=i, title=t, abstract=a)
 
 
         # extract concepts
@@ -69,7 +68,8 @@ def fpggdb2models():
                 c.execute("""select id,first_name,last_name from fpgg_user where id=%s""", projectactor[1])
                 actor = c.fetchone()
                 i, f, l = actor
-                a, created = Actor.objects.using(db).get_or_create(id=i, name=f.encode("utf-8") + ' ' + l.encode("utf-8"))
+#                a, created = Actor.objects.using(db).get_or_create(id=i, name=f.encode("utf-8") + ' ' + l.encode("utf-8"))
+                a, created = Actor.objects.using(db).get_or_create(id=i, name=f + ' ' + l)
     #            print "actor %s created" % actor[1]
 
                 pa, created = InstanceActor.objects.using(db).get_or_create(id=projectactor[0], actor=a, instance=p, weight=weight)
@@ -80,4 +80,4 @@ def fpggdb2models():
                 create_AAc_from_A_I(a, p, db)
 
 
-    db.close()
+    con.close()

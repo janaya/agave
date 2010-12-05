@@ -44,7 +44,7 @@ def extract_concepts(text):
 
     raw_output = urllib.urlopen(gateway, args_enc).read()
     output = simplejson.loads(raw_output)
-    #pprint(output)
+    # to get more "tags"
 #    tags = [output['markup']['links'][i]['target']['title'] for i in range(len(output['markup']['links'])) if output['markup']['links'][i]['confidence']>0.1]
 #    keywords = [output['keywords'][i]['name'] for i in range(len(output['keywords'])) if output['keywords'][i]['confidence']>0.1]
 #    categories_set = set()
